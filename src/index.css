@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f5f5f5;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Kanban Card Styles */
+.kanban-card {
+  @apply p-4 rounded-lg shadow-sm cursor-grab hover:shadow-md transition-shadow;
+}
+
+.kanban-card.code {
+  @apply bg-blue-50 border-l-4 border-blue-500;
+}
+
+.kanban-card.research {
+  @apply bg-green-50 border-l-4 border-green-500;
+}
+
+.kanban-card.design {
+  @apply bg-amber-50 border-l-4 border-amber-500;
+}
+
+.kanban-card.other {
+  @apply bg-purple-50 border-l-4 border-purple-500;
+}
+
+.kanban-card.code .card-badge {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.kanban-card.research .card-badge {
+  @apply bg-green-100 text-green-800;
+}
+
+.kanban-card.design .card-badge {
+  @apply bg-amber-100 text-amber-800;
+}
+
+.kanban-card.other .card-badge {
+  @apply bg-purple-100 text-purple-800;
+}
+
+/* Column Styles */
+.kanban-column {
+  @apply bg-gray-100 rounded-lg p-4 min-h-96;
+}
+
+.kanban-column-header {
+  @apply font-bold text-gray-700 mb-4 text-sm uppercase tracking-wide;
+}
+
+/* Loading state */
+.skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
