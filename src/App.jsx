@@ -1,195 +1,189 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { Column } from './components/Column'
-import { NewCardForm } from './components/NewCardForm'
-import { cardService } from './services/cardService'
+import DashboardPage from './pages/DashboardPage'
+import AgentsPage from './pages/AgentsPage'
+import ChatPage from './pages/ChatPage'
+import ProjectsPage from './pages/ProjectsPage'
+import {
+  LayoutDashboard,
+  Bot,
+  MessageSquare,
+  Folders,
+  Activity,
+  Zap,
+  ChevronRight,
+  Bell,
+  Settings
+} from 'lucide-react'
 
-const STATUSES = ['Draft', 'Ready', 'In Progress', 'Done']
-const CARD_TYPES = ['code', 'research', 'design', 'other']
+const NAV_ITEMS = [
+  { id: 'dashboard', label: 'Torre de Control', icon: LayoutDashboard },
+  { id: 'agents',    label: 'Agentes',          icon: Bot },
+  { id: 'chat',      label: 'Chat Orquestador', icon: MessageSquare },
+  { id: 'projects',  label: 'Proyectos',         icon: Folders },
+]
 
 export default function App() {
-  const queryClient = useQueryClient()
-  const [selectedType, setSelectedType] = useState(null)
-  const [error, setError] = useState(null)
+  const [page, setPage] = useState('dashboard')
+  const [time, setTime] = useState(new Date())
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
-  // Fetch cards with real-time polling
-  const { data: cards = [], isLoading, refetch } = useQuery(
-    ['cards', selectedType],
-    () => cardService.getAll(selectedType ? { cardType: selectedType } : {}),
-    {
-      refetchInterval: 10000, // Poll every 10 seconds
-      refetchOnWindowFocus: false,
-    }
-  )
-
-  // Create card mutation
-  const createMutation = useMutation(
-    (newCard) => cardService.create(newCard),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('cards')
-        setError(null)
-      },
-      onError: (error) => {
-        setError(`Failed to create card: ${error.message}`)
-      }
-    }
-  )
-
-  // Update card mutation
-  const updateMutation = useMutation(
-    ({ id, updates }) => cardService.update(id, updates),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('cards')
-        setError(null)
-      },
-      onError: (error) => {
-        setError(`Failed to update card: ${error.message}`)
-      }
-    }
-  )
-
-  // Delete card mutation
-  const deleteMutation = useMutation(
-    (id) => cardService.delete(id),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('cards')
-        setError(null)
-      },
-      onError: (error) => {
-        setError(`Failed to delete card: ${error.message}`)
-      }
-    }
-  )
-
-  const handleCreateCard = (formData) => {
-    createMutation.mutate(formData)
-  }
-
-  const handleStatusChange = (cardId, newStatus) => {
-    updateMutation.mutate({
-      id: cardId,
-      updates: { status: newStatus }
-    })
-  }
-
-  const handleDeleteCard = (cardId) => {
-    if (window.confirm('Are you sure you want to delete this card?')) {
-      deleteMutation.mutate(cardId)
-    }
-  }
-
-  // Group cards by status
-  const cardsByStatus = STATUSES.reduce((acc, status) => {
-    acc[status] = cards.filter(card => card.status === status)
-    return acc
-  }, {})
-
-  // Auto-dismiss errors
   useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => setError(null), 5000)
-      return () => clearTimeout(timer)
-    }
-  }, [error])
+    const t = setInterval(() => setTime(new Date()), 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  const formatTime = (d) =>
+    d.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+  const formatDate = (d) =>
+    d.toLocaleDateString('es-CR', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            🏗️ Dashboard Tower
-          </h1>
-          <p className="text-gray-600 text-sm mt-1">Kanban Board for Task Management</p>
-        </div>
-      </header>
-
-      {/* Error Banner */}
-      {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 mx-4 mt-4 rounded">
-          <p className="text-red-700 text-sm">{error}</p>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* New Card Form */}
-        <NewCardForm
-          onSubmit={handleCreateCard}
-          isLoading={createMutation.isLoading}
-        />
-
-        {/* Filter Section */}
-        <div className="mb-6 flex flex-wrap gap-2 items-center">
-          <span className="text-sm font-medium text-gray-600">Filter by type:</span>
-          <button
-            onClick={() => setSelectedType(null)}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              selectedType === null
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
+      {/* SIDEBAR */}
+      <aside
+        className="flex flex-col flex-shrink-0 transition-all duration-300"
+        style={{
+          width: sidebarOpen ? 240 : 64,
+          background: 'var(--bg-secondary)',
+          borderRight: '1px solid var(--border)',
+        }}
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-3 px-4 py-5" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div
+            className="flex items-center justify-center flex-shrink-0"
+            style={{
+              width: 36, height: 36,
+              background: 'linear-gradient(135deg, #1d4ed8, #0891b2)',
+              borderRadius: 10,
+              boxShadow: '0 0 16px #3b82f630',
+            }}
           >
-            All
-          </button>
-          {CARD_TYPES.map(type => (
+            <Zap size={18} color="#fff" />
+          </div>
+          {sidebarOpen && (
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: 0.5 }}>
+                NEXAI
+              </div>
+              <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: 1, textTransform: 'uppercase' }}>
+                Torre de Control
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Nav */}
+        <nav className="flex flex-col gap-1 p-2 flex-1">
+          {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
             <button
-              key={type}
-              onClick={() => setSelectedType(type)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                selectedType === type
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-              }`}
+              key={id}
+              className={`nav-item ${page === id ? 'active' : ''}`}
+              style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}
+              onClick={() => setPage(id)}
+              title={!sidebarOpen ? label : undefined}
             >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
+              <Icon size={18} />
+              {sidebarOpen && <span>{label}</span>}
+              {sidebarOpen && page === id && (
+                <ChevronRight size={14} style={{ marginLeft: 'auto', color: 'var(--accent-blue)' }} />
+              )}
             </button>
           ))}
-        </div>
+        </nav>
 
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex items-center justify-center py-12">
-            <div className="text-gray-500">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-2"></div>
-              Loading cards...
+        {/* Bottom status */}
+        {sidebarOpen && (
+          <div className="p-3" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="status-dot online" />
+              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Hermes NEXAI</span>
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+              {formatTime(time)}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+              {formatDate(time)}
             </div>
           </div>
         )}
 
-        {/* Kanban Board */}
-        {!isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {STATUSES.map(status => (
-              <Column
-                key={status}
-                status={status}
-                cards={cardsByStatus[status]}
-                onStatusChange={handleStatusChange}
-                onDelete={handleDeleteCard}
-                cardCount={cardsByStatus[status].length}
-              />
-            ))}
-          </div>
-        )}
+        {/* Collapse toggle */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          style={{
+            padding: '12px',
+            borderTop: '1px solid var(--border)',
+            color: 'var(--text-muted)',
+            textAlign: 'center',
+            cursor: 'pointer',
+            background: 'transparent',
+            border: 'none',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+        >
+          <ChevronRight
+            size={16}
+            style={{ transform: sidebarOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline' }}
+          />
+        </button>
+      </aside>
 
-        {/* Empty State */}
-        {!isLoading && cards.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No cards yet. Create one to get started!</p>
+      {/* MAIN CONTENT */}
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+        {/* Top bar */}
+        <header
+          className="flex items-center justify-between px-6 py-3 flex-shrink-0"
+          style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)', height: 56 }}
+        >
+          <div className="flex items-center gap-3">
+            <Activity size={16} style={{ color: 'var(--accent-cyan)' }} />
+            <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontWeight: 500 }}>
+              {NAV_ITEMS.find(n => n.id === page)?.label}
+            </span>
           </div>
-        )}
-      </main>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="status-dot online" />
+              <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 500 }}>Sistema Operativo</span>
+            </div>
+            <button
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                padding: '6px 8px',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+              }}
+            >
+              <Bell size={14} />
+            </button>
+            <button
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                padding: '6px 8px',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+              }}
+            >
+              <Settings size={14} />
+            </button>
+          </div>
+        </header>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-12 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600">
-          <p>Dashboard Tower v1.0 • Real-time polling every 10 seconds</p>
-        </div>
-      </footer>
+        {/* Page content */}
+        <main className="flex-1 overflow-auto">
+          {page === 'dashboard' && <DashboardPage />}
+          {page === 'agents'    && <AgentsPage setPage={setPage} />}
+          {page === 'chat'      && <ChatPage />}
+          {page === 'projects'  && <ProjectsPage />}
+        </main>
+      </div>
     </div>
   )
 }
