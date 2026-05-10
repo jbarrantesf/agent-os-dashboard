@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escuela Superior de Piano Costa Rica — Hacia la Excelencia Musical</title>
+  <meta name="description" content="La escuela de piano más prestigiosa de Costa Rica. Programas para todas las edades y niveles en San José y Grecia, Alajuela." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --black:#080608;--dark:#100E12;--dark2:#1A1620;--surface:#221E2A;
+      --gold:#C9A84C;--gold-lt:#E2C87A;--gold-dk:#A07830;
+      --ivory:#F5F0E8;--text:#F0EAE0;--muted:#9A9098;--dim:#5A5460;
+      --border:rgba(201,168,76,0.15);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 6%;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+    nav.scrolled{background:rgba(8,6,8,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 6%}
+    .nav-logo{text-decoration:none}
+    .nav-logo-top{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ivory);letter-spacing:1px;display:block}
+    .nav-logo-sub{font-size:.65rem;font-weight:400;color:var(--gold);letter-spacing:3px;text-transform:uppercase;display:block;margin-top:2px}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+    .nav-links a{color:rgba(240,234,224,.7);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
+    .nav-links a:hover{color:var(--gold-lt)}
+    .btn-enroll{color:var(--gold)!important;border:1px solid var(--gold)!important;padding:10px 22px!important;border-radius:2px!important}
+    .btn-enroll:hover{background:var(--gold)!important;color:var(--black)!important}
+
+    /* ── HERO ── */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:120px 6% 80px}
+    .hero-img{position:absolute;inset:0;background-image:url('./img-hero.jpg');background-size:cover;background-position:center 30%;animation:kenburns 20s ease-in-out infinite alternate}
+    @keyframes kenburns{0%{transform:scale(1.05) translateY(0);}100%{transform:scale(1.15) translateY(-15px)}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,6,8,.7) 0%,rgba(8,6,8,.5) 40%,rgba(8,6,8,.88) 100%)}
+    .hero-content{position:relative;z-index:2;max-width:780px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;animation:fadeup .8s ease both}
+    .eyebrow-line{width:40px;height:1px;background:var(--gold)}
+    .hero-eyebrow span{font-size:.72rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,7.5vw,6.5rem);font-weight:800;line-height:1;letter-spacing:-1px;margin-bottom:20px;animation:fadeup .8s .1s ease both}
+    .shimmer-text{background:linear-gradient(90deg,var(--gold-dk) 20%,var(--gold-lt) 50%,var(--gold-dk) 80%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;font-style:italic}
+    @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+    .hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.5rem);font-style:italic;color:var(--muted);margin-bottom:48px;line-height:1.6;animation:fadeup .8s .2s ease both}
+    .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeup .8s .3s ease both;margin-bottom:64px}
+    .hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;animation:fadeup .8s .4s ease both}
+    .hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--gold-lt);display:block;line-height:1}
+    .hero-stat-label{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:6px}
+    .stat-divider{width:1px;background:var(--border);align-self:stretch;margin:4px 0}
+
+    /* hero keys */
+    .hero-keys{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:2px;opacity:.1;z-index:1;pointer-events:none}
+    .hkw{width:clamp(26px,3vw,44px);height:clamp(120px,14vw,190px);background:linear-gradient(180deg,#F8F4EE,#D0C8B8);border-radius:0 0 6px 6px;border:1px solid rgba(255,255,255,.1)}
+    .hkb{width:clamp(16px,2vw,28px);height:clamp(75px,8.5vw,115px);background:#080608;border-radius:0 0 4px 4px;margin:0 clamp(-9px,-1.1vw,-14px);z-index:1;box-shadow:2px 4px 8px rgba(0,0,0,.6)}
+
+    /* floating notes */
+    .note{position:absolute;color:rgba(201,168,76,.18);animation:floatnote linear infinite;pointer-events:none;z-index:2}
+    @keyframes floatnote{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:.5}100%{transform:translateY(-20vh) rotate(360deg);opacity:0}}
+
+    /* ── BUTTONS ── */
+    .btn-gold{background:linear-gradient(135deg,var(--gold-lt),var(--gold));color:var(--black);font-weight:600;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;border:none;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s;display:inline-block;border-radius:2px}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.35)}
+    .btn-outline{background:transparent;color:var(--gold);font-size:.82rem;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;border:1px solid rgba(201,168,76,.5);cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block;border-radius:2px}
+    .btn-outline:hover{border-color:var(--gold);background:rgba(201,168,76,.08)}
+
+    /* ── GALLERY ── */
+    .gallery-section{padding:0;overflow:hidden}
+    .gallery-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:260px 260px;gap:4px;max-width:100%}
+    .gallery-grid .img-cell:first-child{grid-row:1/3}
+    .img-cell{position:relative;overflow:hidden;cursor:default}
+    .img-cell img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.16,1,.3,1);display:block}
+    .img-cell:hover img{transform:scale(1.07)}
+    .img-cell-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,6,8,.85) 100%);display:flex;align-items:flex-end;padding:20px 22px;opacity:.85;transition:opacity .3s}
+    .img-cell:hover .img-cell-overlay{opacity:1}
+    .img-cell-label{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--ivory)}
+
+    /* ── ORNAMENT ── */
+    .ornament{display:flex;align-items:center;justify-content:center;gap:20px;padding:40px 6%}
+    .ornament-line{flex:1;height:1px;background:var(--border)}
+    .ornament-sym{color:var(--gold);font-size:1.1rem;opacity:.6}
+
+    /* ── GENERIC SECTION ── */
+    .section{padding:100px 6%;position:relative}
+    .section-alt{background:var(--dark)}
+    .label-tag{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px}
+    .label-tag::before,.label-tag::after{content:'';width:30px;height:1px;background:var(--gold);opacity:.6}
+    .label-tag span{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:700;line-height:1.15;letter-spacing:-.5px;margin-bottom:16px}
+    .section-title em{font-style:italic;color:var(--gold-lt)}
+    .section-sub{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--muted);font-style:italic;max-width:520px;line-height:1.7}
+
+    /* ── ABOUT ── */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:60px auto 0}
+    .about-quote{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-style:italic;line-height:1.5;color:var(--ivory);position:relative;padding-left:28px;margin-bottom:28px}
+    .about-quote::before{content:'"';position:absolute;left:0;top:-10px;font-size:4rem;color:var(--gold);opacity:.4;line-height:1}
+    .about-text{color:var(--muted);font-size:.93rem;line-height:1.8;margin-bottom:28px}
+    .about-points{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .about-points li{display:flex;gap:12px;align-items:flex-start;font-size:.9rem}
+    .about-points li::before{content:'♪';color:var(--gold);flex-shrink:0;font-size:.8rem;margin-top:3px}
+
+    /* about image */
+    .about-img-wrap{position:relative;height:480px}
+    .about-img-wrap .img-cell{height:100%}
+    .about-img-accent{position:absolute;bottom:-20px;right:-20px;width:180px;height:140px;border:2px solid var(--gold);z-index:-1;pointer-events:none}
+    .about-badge{position:absolute;top:24px;left:-20px;background:var(--gold);color:var(--black);padding:14px 20px;text-align:center;z-index:2}
+    .about-badge strong{display:block;font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;line-height:1}
+    .about-badge span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase}
+
+    /* ── PROGRAMS ── */
+    .programs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);margin-top:60px;max-width:1200px;margin-left:auto;margin-right:auto}
+    .program-card{background:var(--dark);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s;cursor:default}
+    .program-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0;background:linear-gradient(180deg,rgba(201,168,76,.06),transparent);transition:height .4s}
+    .program-card:hover{background:var(--dark2)}
+    .program-card:hover::before{height:100%}
+    .program-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:rgba(201,168,76,.08);line-height:1;margin-bottom:16px;display:block}
+    .program-icon{font-size:1.6rem;margin-bottom:16px;display:block}
+    .program-card h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:8px;color:var(--ivory)}
+    .program-age{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block}
+    .program-card p{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:24px}
+    .program-link{font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap .2s}
+    .program-link:hover{gap:14px}
+
+    /* ── PRICING ── */
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:60px;max-width:1100px;margin-left:auto;margin-right:auto}
+    .price-card{background:var(--dark2);border:1px solid var(--border);padding:44px 32px;text-align:center;position:relative;transition:transform .3s,border-color .3s}
+    .price-card:hover{transform:translateY(-6px);border-color:rgba(201,168,76,.35)}
+    .price-card.featured{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,var(--dark2) 100%)}
+    .price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:2px;white-space:nowrap}
+    .price-tier{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .price-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:24px}
+    .price-num{display:flex;align-items:flex-start;justify-content:center;gap:4px;margin-bottom:8px}
+    .price-currency{font-size:1rem;color:var(--gold);margin-top:8px;font-weight:600}
+    .price-amount{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:800;color:var(--ivory);line-height:1}
+    .price-period{font-size:.8rem;color:var(--muted);margin-bottom:32px}
+    .price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:36px;text-align:left}
+    .price-features li{font-size:.87rem;color:var(--text);display:flex;gap:10px;align-items:flex-start}
+    .price-features li::before{content:'✦';color:var(--gold);font-size:.6rem;flex-shrink:0;margin-top:4px}
+
+    /* ── PARALLAX QUOTE ── */
+    .parallax-section{position:relative;height:460px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+    .parallax-bg{position:absolute;inset:-60px 0;background-image:url('./img-parallax.jpg');background-size:cover;background-position:center;background-attachment:fixed;filter:brightness(.25)}
+    .parallax-overlay{position:absolute;inset:0;background:rgba(8,6,8,.4)}
+    .parallax-content{position:relative;z-index:1;max-width:700px;padding:0 6%}
+    .parallax-content blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.5vw,2.8rem);font-style:italic;font-weight:600;line-height:1.4;color:var(--ivory)}
+    .parallax-content cite{display:block;margin-top:20px;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+
+    /* ── LOCATIONS ── */
+    .locations-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:60px;max-width:900px;margin-left:auto;margin-right:auto}
+    .location-card{background:var(--dark);padding:56px 48px;text-align:center;transition:background .3s}
+    .location-card:hover{background:var(--dark2)}
+    .location-icon{font-size:2.5rem;display:block;margin-bottom:20px}
+    .location-card h3{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:8px}
+    .location-card p{font-size:.9rem;color:var(--muted);margin-bottom:4px}
+    .location-hours{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+    .location-hours p{font-size:.82rem;color:var(--dim)}
+
+    /* ── PIANO KEYS INTERACTIVE ── */
+    .piano-section{padding:80px 6%;text-align:center;background:var(--dark)}
+    .piano-wrap{display:flex;gap:3px;justify-content:center;margin:44px auto 0;max-width:600px;position:relative;height:130px;align-items:flex-start}
+    .pk-w{width:44px;height:130px;background:linear-gradient(180deg,#F8F4EE 0%,#DDD5C0 100%);border-radius:0 0 6px 6px;border:1px solid rgba(0,0,0,.2);cursor:pointer;transition:transform .12s,filter .12s;transform-origin:top center;box-shadow:0 4px 10px rgba(0,0,0,.5),inset 0 -2px 4px rgba(0,0,0,.1);position:relative;z-index:1;flex-shrink:0}
+    .pk-w:hover,.pk-w.pressed{transform:scaleY(.93);filter:brightness(.9)}
+    .pk-b{width:28px;height:80px;background:linear-gradient(180deg,#2A2430 0%,#080608 100%);border-radius:0 0 5px 5px;margin:0 -15px;z-index:2;cursor:pointer;transition:transform .12s,filter .12s;transform-origin:top center;box-shadow:0 6px 14px rgba(0,0,0,.7);flex-shrink:0}
+    .pk-b:hover,.pk-b.pressed{transform:scaleY(.91);filter:brightness(1.5)}
+
+    /* floating note particle */
+    .note-particle{position:fixed;pointer-events:none;z-index:9999;font-size:1.2rem;color:var(--gold);opacity:0;animation:notepop 1.3s ease forwards}
+    @keyframes notepop{0%{opacity:.9;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-55px) scale(.5) rotate(25deg)}}
+
+    /* cursor trail */
+    .cursor-trail{position:fixed;pointer-events:none;z-index:9998;font-size:1rem;color:var(--gold);opacity:0;animation:notepop 1.1s ease forwards}
+
+    /* ── CTA ── */
+    .cta-section{text-align:center;padding:120px 6%;background:var(--dark2);position:relative;overflow:hidden}
+    .cta-section::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+    .cta-inner h2{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.1;margin-bottom:20px}
+    .cta-inner h2 em{font-style:italic;color:var(--gold-lt)}
+    .cta-inner p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--muted);margin-bottom:44px;line-height:1.7}
+
+    /* ── CONTACT ── */
+    .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;max-width:1000px;margin:60px auto 0;align-items:start}
+    .contact-info h3{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:12px}
+    .contact-info>p{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:1.05rem;line-height:1.7;margin-bottom:36px}
+    .contact-item{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+    .contact-item-icon{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .contact-item-text strong{display:block;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .contact-item-text span{font-size:.9rem}
+    .contact-socials{display:flex;gap:12px;margin-top:32px}
+    .social-btn{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:1rem;transition:all .2s}
+    .social-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .form-card{background:var(--dark2);border:1px solid var(--border);padding:48px}
+    .form-group{margin-bottom:20px}
+    .form-group label{display:block;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-bottom:1px solid rgba(201,168,76,.3);padding:14px 16px;color:var(--text);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;appearance:none;border-radius:0}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-bottom-color:var(--gold);background:rgba(201,168,76,.03)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-submit{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));color:var(--black);font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:8px;border-radius:0}
+    .form-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,168,76,.3)}
+
+    /* ── FOOTER ── */
+    footer{padding:60px 6% 36px;border-top:1px solid var(--border);display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px}
+    .footer-brand-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ivory);display:block;margin-bottom:4px}
+    .footer-brand-sub{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
+    .footer-brand p{font-size:.82rem;color:var(--dim);line-height:1.7}
+    .footer-col h4{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .footer-col ul{list-style:none}
+    .footer-col ul li{margin-bottom:10px}
+    .footer-col ul a{font-size:.85rem;color:var(--dim);text-decoration:none;transition:color .2s}
+    .footer-col ul a:hover{color:var(--text)}
+    .footer-bottom{grid-column:1/-1;border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--dim);flex-wrap:wrap;gap:12px}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* ── MOBILE ── */
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .about-grid,.contact-grid,.locations-grid{grid-template-columns:1fr;gap:40px}
+      .about-img-wrap{height:320px}
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px 200px}
+      .gallery-grid .img-cell:first-child{grid-row:1/2;grid-column:1/3}
+      .hero-keys{display:none}
+      .form-row{grid-template-columns:1fr}
+      .form-card{padding:28px 20px}
+      footer{grid-template-columns:1fr 1fr}
+      .piano-wrap{overflow-x:auto;justify-content:flex-start;padding:0 20px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-top">Escuela Superior de Piano</span>
+    <span class="nav-logo-sub">Costa Rica</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#nosotros">La Escuela</a></li>
+    <li><a href="#programas">Programas</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#sedes">Sedes</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#contacto" class="btn-enroll">Matricular</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- floating notes -->
+  <div class="note" style="left:7%;font-size:1.1rem;animation-duration:13s;animation-delay:0s">♩</div>
+  <div class="note" style="left:19%;animation-duration:18s;animation-delay:3s">♪</div>
+  <div class="note" style="left:34%;font-size:.9rem;animation-duration:15s;animation-delay:7s">♫</div>
+  <div class="note" style="left:66%;animation-duration:12s;animation-delay:1.5s">♬</div>
+  <div class="note" style="left:80%;animation-duration:17s;animation-delay:5s">♩</div>
+  <div class="note" style="left:91%;font-size:.9rem;animation-duration:14s;animation-delay:9s">♪</div>
+
+  <!-- piano keys silhouette -->
+  <div class="hero-keys">
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div><div class="hkb"></div>
+    <div class="hkw"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>San José &amp; Grecia · Costa Rica · Desde 2010</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h1>Hacia la<br><span class="shimmer-text">Excelencia</span><br>Musical</h1>
+    <p class="hero-sub">Donde el talento encuentra su camino<br>y la disciplina se convierte en arte.</p>
+    <div class="hero-ctas">
+      <a href="#contacto" class="btn-gold">Iniciar mi proceso de admisión</a>
+      <a href="#programas" class="btn-outline">Ver programas</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="15" data-suffix="+">0+</span>
+        <div class="hero-stat-label">Años formando músicos</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="8" data-suffix="">0</span>
+        <div class="hero-stat-label">Programas distintos</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="2" data-suffix="">0</span>
+        <div class="hero-stat-label">Sedes en Costa Rica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <div class="gallery-grid">
+    <div class="img-cell reveal">
+      <img src="./img-gallery1.jpg" alt="Piano de cola" loading="lazy" />
+      <div class="img-cell-overlay"><span class="img-cell-label">Donde nace la música</span></div>
+    </div>
+    <div class="img-cell reveal">
+      <img src="./img-gallery2.jpg" alt="Teclas de piano" loading="lazy" />
+      <div class="img-cell-overlay"><span class="img-cell-label">Técnica & Pasión</span></div>
+    </div>
+    <div class="img-cell reveal">
+      <img src="./img-gallery3.jpg" alt="Pianista en concierto" loading="lazy" />
+      <div class="img-cell-overlay"><span class="img-cell-label">Recitales & Conciertos</span></div>
+    </div>
+    <div class="img-cell reveal">
+      <img src="./img-gallery4.jpg" alt="Niño tocando piano" loading="lazy" />
+      <div class="img-cell-overlay"><span class="img-cell-label">Todos los niveles</span></div>
+    </div>
+    <div class="img-cell reveal">
+      <img src="./img-gallery5.jpg" alt="Manos en piano" loading="lazy" />
+      <div class="img-cell-overlay"><span class="img-cell-label">Maestros dedicados</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ORNAMENT -->
+<div class="ornament" style="background:var(--dark);">
+  <div class="ornament-line"></div>
+  <span class="ornament-sym">♦</span>
+  <div class="ornament-line"></div>
+</div>
+
+<!-- ABOUT -->
+<section class="section section-alt" id="nosotros">
+  <div class="about-grid">
+    <div class="reveal">
+      <div class="label-tag"><span>La Escuela</span></div>
+      <h2 class="section-title">Formamos<br>músicos con<br><em>alma y técnica</em></h2>
+      <p class="section-sub" style="margin-bottom:28px;">Más de una década cultivando el amor por el piano clásico en Costa Rica.</p>
+      <blockquote class="about-quote">
+        La música es el lenguaje que trasciende todas las barreras — y el piano es su voz más pura.
+      </blockquote>
+      <p class="about-text">En la Escuela Superior de Piano C.R., cada estudiante recibe una formación personalizada que combina la técnica del piano clásico con el desarrollo musical integral.</p>
+      <ul class="about-points">
+        <li>Clases individuales adaptadas al ritmo y nivel de cada estudiante</li>
+        <li>Metodología probada que mezcla rigor clásico con disfrute real</li>
+        <li>Presentaciones y recitales para poner en práctica lo aprendido</li>
+        <li>Ambiente cálido, profesional y motivador en ambas sedes</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="about-img-wrap">
+        <div class="img-cell" style="height:100%;">
+          <img src="./img-about.jpg" alt="Pianista" loading="lazy" style="height:100%;" />
+        </div>
+        <div class="about-img-accent"></div>
+        <div class="about-badge">
+          <strong>15+</strong>
+          <span>Años de excelencia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="section" id="programas">
+  <div style="text-align:center;" class="reveal">
+    <div class="label-tag" style="justify-content:center;"><span>Programas</span></div>
+    <h2 class="section-title">Un programa <em>para cada etapa</em></h2>
+    <p class="section-sub" style="margin:0 auto;">Desde los primeros acordes de un niño hasta el escenario de un adulto.</p>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card reveal">
+      <span class="program-num">01</span>
+      <span class="program-icon">🎹</span>
+      <h3>Piano Inicial</h3>
+      <span class="program-age">4 – 6 años</span>
+      <p>¡Es hora de jugar y hacer música! Introducción lúdica al piano que despierta el amor por la música desde temprana edad.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+    <div class="program-card reveal">
+      <span class="program-num">02</span>
+      <span class="program-icon">🎼</span>
+      <h3>Piano Básico</h3>
+      <span class="program-age">7 – 12 años</span>
+      <p>Tu primera clase de piano te espera. Bases técnicas sólidas, lectura musical y un repertorio que los niños realmente disfrutan.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+    <div class="program-card reveal">
+      <span class="program-num">03</span>
+      <span class="program-icon">🏆</span>
+      <h3>Piano Intermedio</h3>
+      <span class="program-age">12 – 17 años</span>
+      <p>Donde la disciplina se convierte en excelencia. Repertorio clásico exigente, técnica avanzada y preparación para competencias.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+    <div class="program-card reveal">
+      <span class="program-num">04</span>
+      <span class="program-icon">🌟</span>
+      <h3>Piano Avanzado</h3>
+      <span class="program-age">15 años en adelante</span>
+      <p>Nuevos retos encontrarás en un emocionante viaje hacia el virtuosismo. Para quienes quieren llevar su técnica al nivel más alto.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+    <div class="program-card reveal">
+      <span class="program-num">05</span>
+      <span class="program-icon">🎭</span>
+      <h3>Piano para Adultos</h3>
+      <span class="program-age">18 años en adelante</span>
+      <p>Nunca es tarde para cumplir tus sueños. Programa diseñado para adultos que quieren aprender piano desde cero o retomar.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+    <div class="program-card reveal">
+      <span class="program-num">06</span>
+      <span class="program-icon">🎤</span>
+      <h3>Piano · Voz</h3>
+      <span class="program-age">Todas las edades</span>
+      <p>Expresa tus emociones — el escenario te espera. Combina el piano con técnica vocal para una experiencia musical completa.</p>
+      <a href="#contacto" class="program-link">Conocer más →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section section-alt" id="planes">
+  <div style="text-align:center;" class="reveal">
+    <div class="label-tag" style="justify-content:center;"><span>Inversión</span></div>
+    <h2 class="section-title">Planes <em>mensuales</em></h2>
+    <p class="section-sub" style="margin:0 auto;">Elige el plan que mejor se adapta a tu ritmo y objetivos musicales.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-tier">Esencial</div>
+      <h3>Iniciante</h3>
+      <div class="price-num"><span class="price-currency">₡</span><span class="price-amount">35K</span></div>
+      <p class="price-period">por mes · 1 clase semanal</p>
+      <ul class="price-features">
+        <li>Clase individual de 45 min/semana</li>
+        <li>Material didáctico incluido</li>
+        <li>Acceso a recitales internos</li>
+        <li>Seguimiento personalizado</li>
+      </ul>
+      <a href="#contacto" class="btn-outline" style="display:block;text-align:center;">Matricular</a>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-badge">Más popular</div>
+      <div class="price-tier">Completo</div>
+      <h3>Intermedio</h3>
+      <div class="price-num"><span class="price-currency">₡</span><span class="price-amount">55K</span></div>
+      <p class="price-period">por mes · 2 clases semanales</p>
+      <ul class="price-features">
+        <li>2 clases individuales de 45 min/semana</li>
+        <li>Material didáctico incluido</li>
+        <li>Recitales semestrales</li>
+        <li>Evaluación mensual de avance</li>
+        <li>Biblioteca musical digital</li>
+      </ul>
+      <a href="#contacto" class="btn-gold" style="display:block;text-align:center;">Matricular</a>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-tier">Elite</div>
+      <h3>Avanzado</h3>
+      <div class="price-num"><span class="price-currency">₡</span><span class="price-amount">80K</span></div>
+      <p class="price-period">por mes · 3 clases semanales</p>
+      <ul class="price-features">
+        <li>3 clases individuales de 60 min/semana</li>
+        <li>Preparación para competencias</li>
+        <li>Repertorio avanzado personalizado</li>
+        <li>Masterclasses trimestrales</li>
+        <li>Conciertos formales</li>
+      </ul>
+      <a href="#contacto" class="btn-outline" style="display:block;text-align:center;">Matricular</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section class="section" id="sedes">
+  <div style="text-align:center;" class="reveal">
+    <div class="label-tag" style="justify-content:center;"><span>Sedes</span></div>
+    <h2 class="section-title">Estamos <em>cerca de ti</em></h2>
+  </div>
+  <div class="locations-grid">
+    <div class="location-card reveal">
+      <span class="location-icon">🌆</span>
+      <h3>San José</h3>
+      <p style="color:var(--gold);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Sede Principal</p>
+      <p>Rohrmoser, Pavas · San José</p>
+      <div class="location-hours">
+        <p>📞 8759-0616</p>
+        <p style="margin-top:8px;">L–V: 9:00 a.m. – 8:00 p.m.</p>
+        <p>Sáb: 8:00 a.m. – 5:00 p.m.</p>
+      </div>
+    </div>
+    <div class="location-card reveal">
+      <span class="location-icon">🌿</span>
+      <h3>Occidente</h3>
+      <p style="color:var(--gold);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Sede Alajuela</p>
+      <p>Grecia, Alajuela · Costa Rica</p>
+      <div class="location-hours">
+        <p>📞 8759-0616</p>
+        <p style="margin-top:8px;">L–V: 9:00 a.m. – 8:00 p.m.</p>
+        <p>Sáb: 8:00 a.m. – 5:00 p.m.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARALLAX QUOTE -->
+<div class="parallax-section">
+  <div class="parallax-bg"></div>
+  <div class="parallax-overlay"></div>
+  <div class="parallax-content reveal">
+    <div class="label-tag" style="justify-content:center;margin-bottom:24px;"><span>Nuestra Filosofía</span></div>
+    <blockquote>"La disciplina es el puente entre el sueño musical y la excelencia en el escenario."</blockquote>
+    <cite>— Escuela Superior de Piano C.R.</cite>
+  </div>
+</div>
+
+<!-- PIANO KEYS INTERACTIVE -->
+<section class="piano-section">
+  <div class="label-tag" style="justify-content:center;"><span>Comienza Hoy</span></div>
+  <h2 class="section-title">Tu primera nota <em>te espera</em></h2>
+  <p style="color:var(--muted);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;">Toca cualquier tecla para sentirlo</p>
+  <div class="piano-wrap" id="pianoKeys">
+    <!-- Octave 1 -->
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div>
+    <!-- Octave 2 -->
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div><div class="pk-b"></div>
+    <div class="pk-w"></div>
+  </div>
+  <div style="margin-top:44px;">
+    <a href="#contacto" class="btn-gold" style="font-size:.85rem;padding:18px 44px;letter-spacing:3px;">Reservar mi clase de prueba gratuita</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="label-tag" style="justify-content:center;margin-bottom:24px;"><span>Admisión 2026</span></div>
+    <h2>Tu viaje musical<br>comienza <em>hoy</em></h2>
+    <p>Las plazas son limitadas. Reserva tu lugar y da el primer paso hacia la excelencia musical.</p>
+    <a href="#contacto" class="btn-gold" style="font-size:.85rem;padding:18px 44px;letter-spacing:3px;">Solicitar admisión 2026</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section-alt" id="contacto">
+  <div style="text-align:center;" class="reveal">
+    <div class="label-tag" style="justify-content:center;"><span>Contacto</span></div>
+    <h2 class="section-title">Reserva tu <em>clase de prueba</em></h2>
+    <p class="section-sub" style="margin:0 auto;">Gratuita, sin compromiso. Un maestro evaluará tu nivel y te recomendará el programa ideal.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Hablemos</h3>
+      <p>Cuéntanos sobre el alumno y te ayudamos a encontrar el programa ideal según edad, nivel y objetivos.</p>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text"><strong>Teléfono / WhatsApp</strong><span>8759-0616</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📧</div>
+        <div class="contact-item-text"><strong>Correo</strong><span>info@pianocr.org</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text"><strong>Sedes</strong><span>San José (Rohrmoser) · Grecia, Alajuela</span></div>
+      </div>
+      <div class="contact-socials">
+        <a href="#" class="social-btn" title="Instagram">📸</a>
+        <a href="#" class="social-btn" title="Facebook">📘</a>
+        <a href="#" class="social-btn" title="YouTube">▶️</a>
+        <a href="#" class="social-btn" title="TikTok">🎵</a>
+      </div>
+    </div>
+    <div class="form-card reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:24px;">Solicitar información</h3>
+      <form onsubmit="handleForm(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Nombre</label><input type="text" placeholder="Tu nombre" required /></div>
+          <div class="form-group"><label>Apellido</label><input type="text" placeholder="Tu apellido" required /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Teléfono</label><input type="tel" placeholder="8888-8888" required /></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="correo@ejemplo.com" /></div>
+        </div>
+        <div class="form-group">
+          <label>Programa de interés</label>
+          <select required>
+            <option value="" disabled selected>Seleccionar programa</option>
+            <option>Piano Inicial (4–6 años)</option>
+            <option>Piano Básico (7–12 años)</option>
+            <option>Piano Intermedio (12–17 años)</option>
+            <option>Piano Avanzado (15+)</option>
+            <option>Piano para Adultos (18+)</option>
+            <option>Piano · Voz</option>
+            <option>No estoy seguro — necesito orientación</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sede preferida</label>
+          <select>
+            <option>San José — Rohrmoser, Pavas</option>
+            <option>Occidente — Grecia, Alajuela</option>
+            <option>Cualquiera de las dos</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Mensaje (opcional)</label><textarea placeholder="Cuéntanos sobre el alumno, nivel actual, objetivos..."></textarea></div>
+        <button type="submit" class="form-submit">Solicitar clase de prueba gratuita</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="footer-brand-name">Escuela Superior de Piano</span>
+    <span class="footer-brand-sub">Costa Rica</span>
+    <p>Formando músicos con excelencia técnica y amor por el piano clásico desde hace más de una década.</p>
+  </div>
+  <div class="footer-col">
+    <h4>La Escuela</h4>
+    <ul>
+      <li><a href="#nosotros">Quiénes somos</a></li>
+      <li><a href="#programas">Programas</a></li>
+      <li><a href="#planes">Planes & Precios</a></li>
+      <li><a href="#">Calendario Anual</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Admisión</h4>
+    <ul>
+      <li><a href="#contacto">Admisión 2026</a></li>
+      <li><a href="#contacto">Clase de prueba</a></li>
+      <li><a href="#planes">Ver planes</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Contacto</h4>
+    <ul>
+      <li><a href="tel:87590616">📞 8759-0616</a></li>
+      <li><a href="mailto:info@pianocr.org">📧 info@pianocr.org</a></li>
+      <li><a href="#">📍 San José</a></li>
+      <li><a href="#">📍 Grecia, Alajuela</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Escuela Superior de Piano C.R. · Todos los derechos reservados.</span>
+    <span>Diseñado con ♪ en Costa Rica</span>
+  </div>
+</footer>
+
+<script>
+  // ── Nav scroll ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Scroll reveal with stagger ──
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i * 0.08) + 's';
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Counter animation ──
+  function countUp(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    let current = 0;
+    const step = target / 40;
+    const iv = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current) + suffix;
+      if (current >= target) clearInterval(iv);
+    }, 40);
+  }
+  const statsObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      document.querySelectorAll('[data-target]').forEach(countUp);
+      statsObs.disconnect();
+    }
+  }, { threshold: 0.4 });
+  const statsEl = document.querySelector('.hero-stats');
+  if (statsEl) statsObs.observe(statsEl);
+
+  // ── Piano keys ──
+  const noteChars = ['♩','♪','♫','♬'];
+
+  function spawnNote(x, y) {
+    const el = document.createElement('div');
+    el.className = 'note-particle';
+    el.textContent = noteChars[Math.floor(Math.random() * noteChars.length)];
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1300);
+  }
+
+  document.querySelectorAll('.pk-w, .pk-b').forEach(key => {
+    key.addEventListener('mousedown', (e) => {
+      key.classList.add('pressed');
+      const r = key.getBoundingClientRect();
+      spawnNote(r.left + r.width / 2, r.top);
+    });
+    key.addEventListener('mouseup', () => key.classList.remove('pressed'));
+    key.addEventListener('mouseleave', () => key.classList.remove('pressed'));
+  });
+
+  // Auto-play melody on load
+  function autoMelody() {
+    const whites = document.querySelectorAll('.pk-w');
+    const melody = [0, 2, 4, 2, 0, 4, 2, 7, 5, 4];
+    let i = 0;
+    function next() {
+      if (i > 0 && whites[melody[i-1]]) whites[melody[i-1]].classList.remove('pressed');
+      if (i < melody.length) {
+        if (whites[melody[i]]) whites[melody[i]].classList.add('pressed');
+        i++;
+        setTimeout(next, 320);
+      } else {
+        setTimeout(() => whites.forEach(k => k.classList.remove('pressed')), 400);
+        setTimeout(autoMelody, 5000);
+      }
+    }
+    next();
+  }
+  setTimeout(autoMelody, 1800);
+
+  // ── Cursor trail ──
+  let lastTrail = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastTrail < 160) return;
+    lastTrail = now;
+    const el = document.createElement('div');
+    el.className = 'cursor-trail';
+    el.textContent = noteChars[Math.floor(Math.random() * noteChars.length)];
+    el.style.left = (e.clientX + 14) + 'px';
+    el.style.top = (e.clientY - 6) + 'px';
+    document.body.appendChild(el);
+    el.style.opacity = '0.7';
+    setTimeout(() => el.remove(), 1100);
+  });
+
+  // ── Form ──
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = '✦ Solicitud enviada — nos contactamos pronto';
+    btn.style.background = '#3a6b47';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>

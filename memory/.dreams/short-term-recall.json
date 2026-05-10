@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-30T14:35:10.645Z",
+  "entries": {
+    "memory:memory/2026-04-28.md:1:29": {
+      "key": "memory:memory/2026-04-28.md:1:29",
+      "path": "memory/2026-04-28.md",
+      "startLine": 1,
+      "endLine": 29,
+      "source": "memory",
+      "snippet": "# Daily Memory — Martes 28 de abril, 2026 ## Sesión principal del día ### 🌐 Diseño web NexAI (nexaisolutionscr.com) - Construí rediseño completo de la landing de NexAI desde cero - Archivo: `proyectos/nexai-web/index.html` - Stack: HTML/CSS/JS puro, dark theme con dorado, animated canvas particles - Secciones: hero, stats, problem/pain, 3 servicios, 4-step proceso, caso Coybo, diferenciadores, CTA, formulario de contacto, chatbot widget - Costo estimado de producción: ~$0.30 en tokens vs $1,500-$5,000 de agencia - Publicado temporalmente vía tunnel para preview ### 🎹 Diseño web escuela de piano (pianocr.org) - Cliente potencial de NexAI — José quiere vendérsela como caso de estudio - Ar",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5879968322135957,
+      "maxScore": 0.5879968322135957,
+      "firstRecalledAt": "2026-04-29T12:23:12.362Z",
+      "lastRecalledAt": "2026-04-29T12:23:12.362Z",
+      "queryHashes": [
+        "ad5123f408db"
+      ],
+      "recallDays": [
+        "2026-04-29"
+      ],
+      "conceptTags": [
+        "nexaisolutionscr.com",
+        "proyectos/nexai-web/index.html",
+        "html/css/js",
+        "problem/pain",
+        "4-step",
+        "0.30",
+        "pianocr.org",
+        "martes"
+      ]
+    },
+    "memory:memory/2026-04-26.md:1:28": {
+      "key": "memory:memory/2026-04-26.md:1:28",
+      "path": "memory/2026-04-26.md",
+      "startLine": 1,
+      "endLine": 28,
+      "source": "memory",
+      "snippet": "# Daily Memory — 2026-04-26 ## Google Calendar + Meet (confirmado funcionando) - OAuth token autorizado hoy con scopes: Calendar + Meet - Token actualizado en `openclaw.json` → plugin `google-meet` - Puedo: crear eventos con Meet link, invitar participantes, configurar recordatorios - Reunión de prueba creada: Lunes 27 abril 3:00 PM CR, invitado jbarrantesf@gmail.com, Meet: meet.google.com/ynu-sgjc-kas, recordatorio 30 min ## Flujo de reuniones Google Meet — probado hoy - Unirme a meet con openclaw googlemeet join <url> --mode transcribe - Grabar audio: rec -q /tmp/meet_recording.wav (BlackHole 2ch) - Transcribir: Whisper (modelo base, Python) - Enviar resumen: Python smtplib → smtp.gmail.",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6863855530114034,
+      "maxScore": 0.6863855530114034,
+      "firstRecalledAt": "2026-04-29T20:39:10.352Z",
+      "lastRecalledAt": "2026-04-29T20:39:10.352Z",
+      "queryHashes": [
+        "83ae96d8263c"
+      ],
+      "recallDays": [
+        "2026-04-29"
+      ],
+      "conceptTags": [
+        "openclaw.json",
+        "google-meet",
+        "gmail.com",
+        "meet.google.com/ynu-sgjc-kas",
+        "tmp/meet-recording.wav",
+        "smtp.gmail",
+        "google",
+        "calendar"
+      ]
+    },
+    "memory:memory/2026-04-26.md:21:49": {
+      "key": "memory:memory/2026-04-26.md:21:49",
+      "path": "memory/2026-04-26.md",
+      "startLine": 21,
+      "endLine": 49,
+      "source": "memory",
+      "snippet": "3. **Problemas / Bloqueos** — lo que requiere atención 4. **Próximos pasos** — seguimiento pendiente Transcript solo si José lo pide explícitamente. ## Morning Briefing — pendiente implementar José quiere un email diario automático con: - Reuniones del día (del Google Calendar) - Resumen ejecutivo de noticias AI más destacadas (tendencias, empresas top) - Hora preferida: por definir (7:00-7:30 AM sugerido) - Quedó como tarea pendiente, no implementado aún ## Limpieza de hojas escolares — trabajo de hoy - José tiene hija con exámenes en Colegio María Inmaculada - Mandó 6 fotos de hojas de ejercicios ya contestadas - Objetivo: eliminar todo lo del alumno (lápiz, lapicero azul, coloreado cray",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7348043262958526,
+      "maxScore": 0.37241343855857845,
+      "firstRecalledAt": "2026-04-29T20:39:10.352Z",
+      "lastRecalledAt": "2026-04-30T14:35:10.645Z",
+      "queryHashes": [
+        "83ae96d8263c",
+        "12787c6b2599"
+      ],
+      "recallDays": [
+        "2026-04-29",
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "00-7",
+        "problemas",
+        "bloqueos",
+        "requiere",
+        "atención",
+        "próximos",
+        "pasos",
+        "seguimiento"
+      ]
+    },
+    "memory:memory/2026-04-28.md:43:65": {
+      "key": "memory:memory/2026-04-28.md:43:65",
+      "path": "memory/2026-04-28.md",
+      "startLine": 43,
+      "endLine": 65,
+      "source": "memory",
+      "snippet": "- E: \"Hago que los dueños de negocio dejen de ser el cuello de botella de su propia empresa — con IA | Fundador NexAI Solutions CR | 23 años transformando operaciones\" - Reglas de José para el headline: Sin nombres de otras empresas (Kaiser/Kyndryl), sin \"automatizo procesos\", enfoque en escalar/optimizar, todo en español, \"23 años transformando operaciones\" - **Estado: PENDIENTE DE APROBACIÓN** — no tocar LinkedIn hasta que José dé OK ### ⚙️ Crons del briefing diario - El cron del 1PM fallaba por timeout (120 seg era muy poco) - Solución: dividido en 2 crons separados, 5 min timeout cada uno - Parte 1 (noticias + costos): 8:00 AM CST - Parte 2 (FinSmartCR browser): 8:08 AM CST - José",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.3752374559640884,
+      "maxScore": 0.3752374559640884,
+      "firstRecalledAt": "2026-04-30T14:35:10.645Z",
+      "lastRecalledAt": "2026-04-30T14:35:10.645Z",
+      "queryHashes": [
+        "12787c6b2599"
+      ],
+      "recallDays": [
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "kaiser/kyndryl",
+        "escalar/optimizar",
+        "hago",
+        "dueños",
+        "negocio",
+        "dejen",
+        "ser",
+        "cuello"
+      ]
+    }
+  }
+}

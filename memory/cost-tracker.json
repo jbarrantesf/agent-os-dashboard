@@ -1,0 +1,55 @@
+{
+  "days": {
+    "2026-04-27": {
+      "total": 6.5334,
+      "models": {
+        "claude-sonnet-4-6": {
+          "calls": 151,
+          "total": 6.5334,
+          "input": 0.0007,
+          "output": 0.5073,
+          "cacheRead": 2.0612,
+          "cacheWrite": 3.9644
+        }
+      }
+    },
+    "2026-04-28": {
+      "total": 5.3008,
+      "models": {
+        "claude-sonnet-4-6": {
+          "calls": 86,
+          "total": 5.3008,
+          "input": 0.0004,
+          "output": 0.7416,
+          "cacheRead": 0.9559,
+          "cacheWrite": 3.603
+        }
+      }
+    },
+    "2026-04-29": {
+      "total": 5.0362,
+      "models": {
+        "claude-sonnet-4-6": {
+          "calls": 191,
+          "total": 5.0362,
+          "input": 0.0008,
+          "output": 0.7386,
+          "cacheRead": 2.3546,
+          "cacheWrite": 1.9421
+        }
+      }
+    }
+  },
+  "models": {
+    "claude-sonnet-4-6": {
+      "calls": 428,
+      "total": 16.8704,
+      "input": 0.0019,
+      "output": 1.9874,
+      "cacheRead": 5.3716,
+      "cacheWrite": 9.5095
+    }
+  },
+  "grand_total": 16.8704,
+  "generated_at": "2026-04-29T19:15:26.081954+00:00"
+}

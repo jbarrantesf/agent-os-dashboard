@@ -1,0 +1,30 @@
+{
+  "date": "2026-05-01",
+  "timestamp": "2026-05-01T13:04:48.201298",
+  "source": "FinSmartCR Dashboard",
+  "status": "screenshot_capturado_pendiente_análisis",
+  "financial_summary": {
+    "periodo": "PENDIENTE_EXTRACCIÓN",
+    "ingresos_totales": "PENDIENTE_EXTRACCIÓN",
+    "gastos_totales": "PENDIENTE_EXTRACCIÓN",
+    "balance_neto": "PENDIENTE_EXTRACCIÓN",
+    "total_transacciones": "PENDIENTE_EXTRACCIÓN"
+  },
+  "gastos_por_categoria": {
+    "PENDIENTE_EXTRACCIÓN": {
+      "monto": "PENDIENTE",
+      "porcentaje": "PENDIENTE"
+    }
+  },
+  "ingresos_por_categoria": {
+    "PENDIENTE_EXTRACCIÓN": {
+      "monto": "PENDIENTE",
+      "porcentaje": "PENDIENTE"
+    }
+  },
+  "notas": [
+    "Screenshot capturado exitosamente",
+    "Path: /Users/nextaisolutionscr/.openclaw/workspace/finsmart_today.png",
+    "Aguardando análisis de imagen para extraer números exactos"
+  ]
+}

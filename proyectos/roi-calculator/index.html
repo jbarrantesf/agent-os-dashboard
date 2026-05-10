@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexAI Solutions CR — ¿Cuánto te cuesta NO automatizar?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg2: #0d1117;
+      --card: #111827;
+      --card2: #1a2234;
+      --border: #1e2d42;
+      --border2: #243347;
+      --cyan: #00d4ff;
+      --cyan2: #0ea5e9;
+      --cyan-glow: rgba(0,212,255,0.15);
+      --cyan-dark: #0891b2;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --muted2: #94a3b8;
+      --white: #ffffff;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-dark); border-radius: 3px; }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo img { height: 36px; }
+    .nav-logo-text { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; color:var(--white); }
+    .nav-logo-text span { color: var(--cyan); }
+    .nav-center { display:flex; gap:4px; margin: 0 auto; }
+    .nav-link { padding: 7px 16px; border-radius:8px; font-size:14px; color:var(--muted2); text-decoration:none; transition:.2s; font-weight:500; }
+    .nav-link:hover { color:var(--white); background:rgba(255,255,255,0.05); }
+    .nav-controls { display:flex; gap:8px; align-items:center; }
+    .toggle-group { display:flex; background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+    .toggle-btn { padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; border:none; background:transparent; color:var(--muted); transition:.15s; }
+    .toggle-btn.active { background:var(--cyan); color:#000; }
+    .btn-nav { padding: 8px 18px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:none; background: var(--cyan); color:#000; text-decoration:none; transition:.2s; white-space:nowrap; }
+    .btn-nav:hover { filter:brightness(1.1); transform:translateY(-1px); }
+    @media(max-width:768px){
+      .nav-center { display:none; }
+      nav { padding: 0 16px; }
+    }
+
+    /* ── Canvas particles ── */
+    #particles-canvas {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      pointer-events: none; z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items:center; gap:8px;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 100px; padding: 6px 16px; font-size:12px; font-weight:600;
+      color: var(--cyan); margin-bottom: 28px;
+      animation: fadeUp .8s ease forwards;
+    }
+    .hero-badge::before { content:''; width:6px; height:6px; background:var(--cyan); border-radius:50%; animation: pulse 2s infinite; }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 800; line-height: 1.1;
+      color: var(--white); margin-bottom: 20px;
+      animation: fadeUp .8s .1s ease both;
+    }
+    .hero-title .accent { color: var(--cyan); position:relative; }
+    .hero-title .accent::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0;
+      height:3px; background:linear-gradient(90deg, var(--cyan), transparent);
+      border-radius:2px;
+    }
+    .hero-sub {
+      font-size: clamp(16px,2vw,20px); color: var(--muted2); max-width:620px;
+      line-height:1.6; margin-bottom:36px;
+      animation: fadeUp .8s .2s ease both;
+    }
+    .hero-ctas {
+      display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-bottom:56px;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 14px 28px; border-radius:10px; font-size:15px; font-weight:700;
+      background: var(--cyan); color:#000; border:none; cursor:pointer; text-decoration:none;
+      transition:.2s; box-shadow: 0 0 30px rgba(0,212,255,0.3);
+    }
+    .btn-primary:hover { filter:brightness(1.1); transform:translateY(-2px); box-shadow: 0 0 40px rgba(0,212,255,0.5); }
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 14px 28px; border-radius:10px; font-size:15px; font-weight:700;
+      background: transparent; color:var(--white); border:1px solid var(--border2); cursor:pointer; text-decoration:none;
+      transition:.2s;
+    }
+    .btn-ghost:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,0.05); }
+    .hero-stats {
+      display:flex; gap:20px; flex-wrap:wrap; justify-content:center;
+      animation: fadeUp .8s .4s ease both;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,0.03); border:1px solid var(--border);
+      backdrop-filter: blur(10px); border-radius:14px; padding:16px 24px; text-align:center;
+      min-width:120px;
+    }
+    .hero-stat .num { font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:800; color:var(--cyan); }
+    .hero-stat .lbl { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.3; }
+    .scroll-indicator {
+      position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--muted); font-size:12px;
+      animation: bounce 2s infinite;
+    }
+    .scroll-indicator svg { opacity:.5; }
+
+    /* ── Section ── */
+    section { position:relative; z-index:1; }
+    .section-inner { max-width:1100px; margin:0 auto; padding:80px 24px; }
+    .section-label { font-size:12px; font-weight:700; color:var(--cyan); letter-spacing:3px; text-transform:uppercase; margin-bottom:14px; }
+    .section-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:800; color:var(--white); line-height:1.15; margin-bottom:14px; }
+    .section-sub { font-size:17px; color:var(--muted2); max-width:560px; line-height:1.6; }
+    .text-center { text-align:center; }
+    .text-center .section-sub { margin: 0 auto; }
+
+    /* ── Divider gradient ── */
+    .gradient-line { height:1px; background:linear-gradient(90deg,transparent,var(--border2),transparent); margin:0; }
+
+    /* ── Calculator ── */
+    .calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+    @media(max-width:800px) { .calc-grid { grid-template-columns:1fr; } }
+    .glass-card {
+      background: rgba(17,24,39,0.8); border:1px solid var(--border);
+      backdrop-filter: blur(20px); border-radius:20px; padding:32px;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .glass-card:hover { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 40px rgba(0,212,255,0.05); }
+    .card-label { font-size:12px; font-weight:700; color:var(--cyan); letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+
+    .field { margin-bottom:16px; }
+    .field label { display:block; font-size:12px; color:var(--muted2); margin-bottom:6px; font-weight:500; letter-spacing:.3px; }
+    .field input, .field select, .field textarea {
+      width:100%; padding:10px 14px;
+      background: rgba(255,255,255,0.04);
+      border:1px solid var(--border);
+      border-radius:10px; color:var(--text); font-size:14px; font-family:inherit;
+      outline:none; transition:.2s;
+    }
+    .field input:focus, .field select:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,212,255,0.08); }
+    .g2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media(max-width:480px) { .g2 { grid-template-columns:1fr; } }
+    .slider-row { display:flex; align-items:center; gap:12px; }
+    .slider-row input[type=range] { flex:1; accent-color:var(--cyan); }
+    .slider-val { font-weight:800; color:var(--cyan); font-size:16px; min-width:44px; text-align:right; }
+
+    /* Process cards */
+    .process-list { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
+    .process-row {
+      background:rgba(255,255,255,0.03); border:1px solid var(--border);
+      border-radius:12px; padding:12px 14px;
+      display:flex; align-items:center; gap:10px;
+      animation: slideIn .3s ease;
+    }
+    @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
+    .process-row .pname { flex:1; font-weight:600; font-size:13px; }
+    .process-row .pmeta { font-size:11px; color:var(--muted); margin-top:2px; }
+    .pcost { color:var(--yellow); font-size:12px; font-weight:700; }
+    .psave { color:var(--green); font-size:12px; font-weight:700; }
+    .btn-rm { background:rgba(239,68,68,0.1); color:var(--red); border:1px solid rgba(239,68,68,0.2); padding:5px 9px; font-size:11px; border-radius:7px; cursor:pointer; transition:.2s; }
+    .btn-rm:hover { background:var(--red); color:#fff; }
+
+    /* Metrics */
+    .metric { margin-bottom:18px; }
+    .metric .lbl { font-size:11px; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; margin-bottom:5px; }
+    .metric .val { font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:800; }
+    .metric .val.yellow { color:var(--yellow); }
+    .metric .val.green { color:var(--green); }
+    .metric .val.cyan { color:var(--cyan); }
+    .metric .val.red { color:var(--red); }
+    .metric .sub { font-size:11px; color:var(--muted); margin-top:3px; }
+    .progress-bar { height:5px; background:rgba(255,255,255,0.06); border-radius:3px; margin-top:8px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:3px; transition:width .7s cubic-bezier(.4,0,.2,1); }
+    hr.div { border:none; border-top:1px solid var(--border); margin:16px 0; }
+    .empty-state { text-align:center; padding:32px 0; color:var(--muted); }
+    .empty-state .icon { font-size:40px; margin-bottom:10px; opacity:.4; }
+
+    /* CTA banner */
+    .cta-banner {
+      position:relative; overflow:hidden;
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(14,165,233,0.05));
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius:20px; padding:48px 40px; text-align:center;
+      margin-top:60px; display:none;
+    }
+    .cta-banner::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(circle at 50% 0, rgba(0,212,255,0.12), transparent 70%);
+      pointer-events:none;
+    }
+    .cta-banner h3 { font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,3vw,34px); color:var(--white); margin-bottom:10px; }
+    .cta-banner p { color:var(--muted2); margin-bottom:24px; font-size:16px; }
+
+    /* Steps */
+    .steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; margin-top:48px; }
+    .step-card {
+      background: rgba(17,24,39,0.6); border:1px solid var(--border);
+      border-radius:16px; padding:28px; position:relative; overflow:hidden;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .step-card:hover { transform:translateY(-6px); border-color:rgba(0,212,255,0.25); box-shadow:0 20px 60px rgba(0,212,255,0.08); }
+    .step-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      opacity:0; transition:.3s;
+    }
+    .step-card:hover::before { opacity:1; }
+    .step-num { font-family:'Space Grotesk',sans-serif; font-size:48px; font-weight:900; color:var(--cyan); opacity:.15; line-height:1; margin-bottom:12px; }
+    .step-card h3 { font-size:15px; font-weight:700; color:var(--white); margin-bottom:10px; }
+    .step-card p { font-size:13px; color:var(--muted2); line-height:1.6; }
+    .step-tag { display:inline-block; margin-top:14px; font-size:11px; background:rgba(0,212,255,0.08); color:var(--cyan); padding:4px 12px; border-radius:100px; border:1px solid rgba(0,212,255,0.2); }
+
+    /* Deliverables */
+    .deliver-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:48px; }
+    .deliver-card {
+      background:rgba(17,24,39,0.6); border:1px solid var(--border);
+      border-radius:16px; padding:24px; display:flex; gap:16px;
+      transition:.3s;
+    }
+    .deliver-card:hover { border-color:rgba(0,212,255,0.2); transform:translateY(-2px); }
+    .deliver-icon { font-size:32px; flex-shrink:0; }
+    .deliver-card h4 { font-size:14px; font-weight:700; color:var(--white); margin-bottom:6px; }
+    .deliver-card p { font-size:12px; color:var(--muted2); line-height:1.5; }
+
+    /* Contact */
+    .contact-wrap { max-width:620px; margin:48px auto 0; }
+    .contact-card {
+      background:rgba(17,24,39,0.8); border:1px solid var(--border);
+      backdrop-filter:blur(20px); border-radius:20px; padding:36px;
+    }
+    .field textarea { resize:vertical; min-height:100px; }
+    .btn-submit {
+      width:100%; padding:14px; border-radius:10px; font-size:15px; font-weight:700;
+      background:var(--cyan); color:#000; border:none; cursor:pointer;
+      transition:.2s; box-shadow:0 0 30px rgba(0,212,255,0.25); margin-top:4px;
+    }
+    .btn-submit:hover { filter:brightness(1.1); transform:translateY(-2px); }
+    .form-msg { text-align:center; margin-top:12px; font-size:13px; display:none; padding:10px; border-radius:8px; }
+    .form-msg.ok { background:rgba(16,185,129,0.1); color:var(--green); border:1px solid rgba(16,185,129,0.2); }
+    .form-msg.err { background:rgba(239,68,68,0.1); color:var(--red); border:1px solid rgba(239,68,68,0.2); }
+
+    /* Footer */
+    footer {
+      position:relative; z-index:1;
+      border-top:1px solid var(--border);
+      padding:32px 24px; text-align:center; color:var(--muted); font-size:13px;
+    }
+    footer a { color:var(--cyan); text-decoration:none; }
+
+    /* Animations */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* Chat widget */
+    #chat-widget { position:fixed; bottom:24px; right:24px; z-index:9999; }
+    #chat-bubble { background:none; border:none; cursor:pointer; filter:drop-shadow(0 4px 20px rgba(0,212,255,0.4)); transition:.2s; }
+    #chat-bubble:hover { transform:scale(1.08) translateY(-2px); filter:drop-shadow(0 8px 30px rgba(0,212,255,0.6)); }
+    #chat-bubble img { width:60px; height:60px; border-radius:50%; border:2px solid var(--cyan); background:var(--card); }
+    #chat-badge { position:absolute; top:-2px; right:-2px; background:var(--red); color:#fff; border-radius:50%; width:18px; height:18px; font-size:11px; font-weight:700; display:none; align-items:center; justify-content:center; }
+    #chat-box { display:none; position:absolute; bottom:72px; right:0; width:340px; background:var(--card); border:1px solid rgba(0,212,255,0.2); border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(0,212,255,0.05); overflow:hidden; flex-direction:column; }
+    #chat-box.open { display:flex; animation:fadeUp .2s ease; }
+    #chat-header { background:linear-gradient(135deg, rgba(0,212,255,0.08),rgba(14,165,233,0.04)); padding:14px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+    #chat-header img { height:34px; border-radius:50%; border:1.5px solid var(--cyan); }
+    #chat-header .name { font-weight:700; font-size:14px; color:var(--white); }
+    #chat-header .status { font-size:11px; color:var(--green); }
+    #chat-header .close-btn { margin-left:auto; background:none; border:none; color:var(--muted); font-size:18px; cursor:pointer; padding:2px 6px; border-radius:6px; transition:.2s; }
+    #chat-header .close-btn:hover { background:rgba(255,255,255,0.08); color:var(--white); }
+    #chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; max-height:300px; }
+    .msg { padding:10px 14px; border-radius:14px; font-size:13px; line-height:1.5; max-width:87%; word-wrap:break-word; }
+    .msg.bot { background:rgba(255,255,255,0.05); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; border:1px solid var(--border); }
+    .msg.user { background:var(--cyan); color:#000; align-self:flex-end; border-bottom-right-radius:4px; font-weight:500; }
+    .msg.typing { color:var(--muted); font-style:italic; }
+    #chat-input-wrap { display:flex; gap:8px; padding:12px; border-top:1px solid var(--border); background:rgba(0,0,0,0.2); }
+    #chat-input { flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:10px; padding:9px 12px; color:var(--text); font-size:13px; outline:none; font-family:inherit; }
+    #chat-input:focus { border-color:var(--cyan); }
+    #chat-send { background:var(--cyan); color:#000; border:none; border-radius:10px; padding:9px 14px; cursor:pointer; font-size:15px; font-weight:700; transition:.2s; }
+    #chat-send:hover { filter:brightness(1.1); }
+    @media(max-width:400px){ #chat-box{ width:calc(100vw - 32px); right:-12px; } }
+  </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- Navbar -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="./logo.png" alt="NexAI" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Nex<span>AI</span></span>
+  </a>
+  <div class="nav-center">
+    <a href="#calculator" class="nav-link" data-i18n="nav_calc">Calculadora</a>
+    <a href="#proceso" class="nav-link" data-i18n="nav_process">Proceso</a>
+    <a href="#entregables" class="nav-link" data-i18n="nav_deliver">Entregables</a>
+    <a href="#nosotros" class="nav-link" data-i18n="nav_about">Quiénes somos</a>
+    <a href="#contact" class="nav-link" data-i18n="nav_contact">Contacto</a>
+  </div>
+  <div class="nav-controls">
+    <div class="toggle-group">
+      <button class="toggle-btn active" onclick="setCurrency('USD')">USD</button>
+      <button class="toggle-btn" onclick="setCurrency('CRC')">₡</button>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" onclick="setLang('es')">ES</button>
+      <button class="toggle-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="btn-nav" data-i18n="nav_cta">Agendar Consulta</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge"><span data-i18n="badge">🤖 Herramienta gratuita para empresas</span></div>
+  <h1 class="hero-title">
+    <span data-i18n="hero_t1">¿Cuánto te cuesta</span><br>
+    <span class="accent" data-i18n="hero_t2">NO automatizar?</span>
+  </h1>
+  <p class="hero-sub" data-i18n="hero_sub">Calculá el costo real de tus procesos manuales y descubrí el ahorro potencial con Inteligencia Artificial en tu empresa.</p>
+  <div class="hero-ctas">
+    <a href="#calculator" class="btn-primary" data-i18n="hero_cta1">🧮 Calcular mi ROI</a>
+    <a href="#proceso" class="btn-ghost" data-i18n="hero_cta2">Ver cómo trabajamos →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" data-count="40">0</div><div class="lbl" data-i18n="stat1">% tiempo ahorrado</div></div>
+    <div class="hero-stat"><div class="num" data-count="6">0</div><div class="lbl" data-i18n="stat2">semanas de implementación</div></div>
+    <div class="hero-stat"><div class="num" data-count="3">0</div><div class="lbl" data-i18n="stat3">× ROI al primer año</div></div>
+    <div class="hero-stat"><div class="num" data-count="20">0</div><div class="lbl" data-i18n="stat4">+ años de experiencia IT</div></div>
+  </div>
+  <div class="scroll-indicator">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span data-i18n="scroll">Descubrí más</span>
+  </div>
+</div>
+
+<div class="gradient-line"></div>
+
+<!-- Calculator -->
+<section id="calculator">
+  <div class="section-inner">
+    <div class="text-center reveal">
+      <div class="section-label" data-i18n="calc_label">Calculadora de ROI</div>
+      <h2 class="section-title" data-i18n="calc_title">Descubrí el costo real de tus procesos</h2>
+      <p class="section-sub" data-i18n="calc_sub">Agregá tus procesos manuales y verás en tiempo real cuánto podés ahorrar</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="glass-card reveal">
+        <div class="card-label">⚙️ <span data-i18n="add_process">Agregar proceso</span></div>
+        <div class="field">
+          <label data-i18n="lbl_name">Nombre del proceso</label>
+          <input type="text" id="pname" data-i18n-ph="ph_name">
+        </div>
+        <div class="g2">
+          <div class="field">
+            <label data-i18n="lbl_emps">Empleados</label>
+            <input type="number" id="pemps" value="2" min="1">
+          </div>
+          <div class="field">
+            <label data-i18n="lbl_hours">Horas/semana</label>
+            <input type="number" id="phours" value="10" min="0.5" step="0.5">
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_hcost">Costo hora promedio (USD)</label>
+          <input type="number" id="phourcost" value="5" min="1" step="0.5">
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_pot">Potencial de automatización: <strong id="pot-label" style="color:var(--cyan);font-size:16px">70%</strong></label>
+          <div class="slider-row">
+            <input type="range" id="ppot" min="10" max="100" value="70" oninput="document.getElementById('pot-label').textContent=this.value+'%'">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addProcess()" style="width:100%;justify-content:center;font-size:14px;padding:12px 20px">
+          ➕ <span data-i18n="btn_add">Agregar proceso</span>
+        </button>
+        <div id="process-list" class="process-list"></div>
+      </div>
+
+      <div class="glass-card reveal">
+        <div class="card-label">📊 <span data-i18n="results_title">Resultados en tiempo real</span></div>
+        <div id="empty-state" class="empty-state">
+          <div class="icon">📋</div>
+          <p data-i18n="empty">Agregá al menos un proceso para ver resultados</p>
+        </div>
+        <div id="results-block" style="display:none">
+          <div class="metric">
+            <div class="lbl" data-i18n="r_monthly">Costo mensual actual</div>
+            <div class="val yellow" id="r-monthly">$0</div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-monthly" style="background:var(--yellow);width:0%"></div></div>
+          </div>
+          <div class="metric">
+            <div class="lbl" data-i18n="r_annual">Costo anual total</div>
+            <div class="val red" id="r-annual">$0</div>
+          </div>
+          <hr class="div">
+          <div class="metric">
+            <div class="lbl" data-i18n="r_savings">Ahorro anual potencial</div>
+            <div class="val green" id="r-savings">$0</div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-savings" style="background:var(--green);width:0%"></div></div>
+            <div class="sub" id="r-savings-pct">–</div>
+          </div>
+          <div class="metric">
+            <div class="lbl" data-i18n="r_payback">Tiempo de recuperación</div>
+            <div class="val cyan" id="r-payback">–</div>
+            <div class="sub" data-i18n="r_payback_sub">Estimado con implementación a la medida</div>
+          </div>
+          <hr class="div">
+          <div class="metric">
+            <div class="lbl" data-i18n="r_roi">ROI estimado a 12 meses</div>
+            <div class="val green" id="r-roi" style="font-size:36px;font-family:'Space Grotesk',sans-serif">–</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-banner" id="cta-dynamic">
+      <h3>💡 <span data-i18n="banner_pre">Tu empresa podría ahorrar</span> <span id="banner-savings" style="color:var(--cyan)">$0</span> <span data-i18n="banner_post">al año</span></h3>
+      <p data-i18n="banner_sub">Agendá un Diagnóstico de Oportunidades IA y recibí una propuesta personalizada sin costo.</p>
+      <a href="#contact" class="btn-primary" style="font-size:15px;padding:14px 32px" data-i18n="banner_cta">📅 Quiero mi diagnóstico</a>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- Proceso -->
+<section id="proceso">
+  <div class="section-inner">
+    <div class="text-center reveal">
+      <div class="section-label" data-i18n="process_label">Nuestra Metodología</div>
+      <h2 class="section-title" data-i18n="process_title">Cómo transformamos tu empresa</h2>
+      <p class="section-sub" data-i18n="process_sub">Un proceso probado, claro y diseñado para generar resultados reales — no solo tecnología bonita</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <h3 data-i18n="s1_title">Diagnóstico de Oportunidades IA</h3>
+        <p data-i18n="s1_desc">Sesiones virtuales y presenciales donde escuchamos a tu equipo, mapeamos procesos e identificamos dónde se pierden tiempo y dinero. Sin suposiciones — con datos reales.</p>
+        <span class="step-tag" data-i18n="s1_tag">2–4 sesiones · 2 semanas</span>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">02</div>
+        <h3 data-i18n="s2_title">Análisis y Priorización</h3>
+        <p data-i18n="s2_desc">Cuantificamos el costo de cada proceso, calculamos el ROI potencial y te entregamos un mapa de prioridades claro. Sabés exactamente qué automatizar primero y por qué.</p>
+        <span class="step-tag" data-i18n="s2_tag">Reporte ejecutivo + roadmap</span>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">03</div>
+        <h3 data-i18n="s3_title">Propuesta Personalizada</h3>
+        <p data-i18n="s3_desc">Tres opciones adaptadas a tu presupuesto y ritmo. Desde quick wins con herramientas existentes hasta un sistema integrado de agentes IA. Vos elegís el camino.</p>
+        <span class="step-tag" data-i18n="s3_tag">3 opciones · Sin compromiso</span>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">04</div>
+        <h3 data-i18n="s4_title">Implementación y Alianza</h3>
+        <p data-i18n="s4_desc">Construimos, integramos y capacitamos a tu equipo. No desaparecemos después del lanzamiento — somos tu socio estratégico a largo plazo con 20+ años de experiencia IT respaldándote.</p>
+        <span class="step-tag" data-i18n="s4_tag">Soporte continuo incluido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- Entregables -->
+<section id="entregables">
+  <div class="section-inner">
+    <div class="text-center reveal">
+      <div class="section-label" data-i18n="deliver_label">Lo que recibís</div>
+      <h2 class="section-title" data-i18n="deliver_title">Qué incluye el Diagnóstico</h2>
+      <p class="section-sub" data-i18n="deliver_sub">El diagnóstico es valioso por sí mismo, independientemente de si avanzamos juntos en la implementación</p>
+    </div>
+    <div class="deliver-grid">
+      <div class="deliver-card reveal"><div class="deliver-icon">🗺️</div><div><h4 data-i18n="d1_t">Mapa de Procesos</h4><p data-i18n="d1_d">Documentación completa de tus procesos más costosos con flujos, responsables y datos.</p></div></div>
+      <div class="deliver-card reveal"><div class="deliver-icon">💰</div><div><h4 data-i18n="d2_t">Análisis de Costos Ocultos</h4><p data-i18n="d2_d">Cuantificamos cuánto le cuesta a tu empresa cada proceso en tiempo, errores y oportunidades perdidas.</p></div></div>
+      <div class="deliver-card reveal"><div class="deliver-icon">🎯</div><div><h4 data-i18n="d3_t">Oportunidades Priorizadas</h4><p data-i18n="d3_d">Ranking de automatizaciones por impacto vs esfuerzo. Sabés exactamente por dónde empezar.</p></div></div>
+      <div class="deliver-card reveal"><div class="deliver-icon">📈</div><div><h4 data-i18n="d4_t">Proyección de ROI</h4><p data-i18n="d4_d">Ahorro anual estimado, tiempo de recuperación de inversión y ROI proyectado a 12 meses.</p></div></div>
+      <div class="deliver-card reveal"><div class="deliver-icon">🤖</div><div><h4 data-i18n="d5_t">Stack Tecnológico Recomendado</h4><p data-i18n="d5_d">Las herramientas y plataformas de IA más adecuadas para tu negocio, equipo y presupuesto.</p></div></div>
+      <div class="deliver-card reveal"><div class="deliver-icon">📋</div><div><h4 data-i18n="d6_t">Roadmap de Implementación</h4><p data-i18n="d6_d">Plan de acción por fases con estimaciones de tiempo, costo y responsables para cada iniciativa.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- Fundador / Experiencia -->
+<section id="nosotros">
+  <div class="section-inner">
+    <div class="text-center reveal">
+      <div class="section-label" data-i18n="about_label">Sobre NexAI</div>
+      <h2 class="section-title" data-i18n="about_title">Tecnología con propósito humano</h2>
+      <p class="section-sub" data-i18n="about_sub">Combinamos 22+ años de experiencia en empresas multinacionales con agilidad de consultora boutique</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;align-items:center" class="about-grid">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px">
+          <img src="./jose.png" alt="José Barrantes" style="width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid var(--cyan);box-shadow:0 0 20px rgba(0,212,255,0.3)">
+          <div>
+            <div class="section-label" style="margin-bottom:4px" data-i18n="founder_label">Fundador & CEO</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--white)">José Barrantes</h3>
+          </div>
+        </div>
+        <p style="color:var(--muted2);line-height:1.7;font-size:15px;margin-bottom:20px" data-i18n="founder_bio">Apasionado del liderazgo y la tecnología, especialmente la inteligencia artificial. Con 22 años de experiencia en distintas industrias y empresas multinacionales, he dedicado mi carrera a combinar la tecnología con el factor humano para lograr resultados extraordinarios.</p>
+        <p style="color:var(--muted2);line-height:1.7;font-size:15px;margin-bottom:28px" data-i18n="founder_bio2">Estoy aquí para servir a mis clientes, aportando experiencia en Kaiser Permanente y Kyndryl, con esa mezcla de enfoque tecnológico y humano para escalar empresas de forma sostenible.</p>
+        <div style="display:flex;gap:28px;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:42px;font-weight:900;color:var(--cyan)">23<span style="font-size:24px">+</span></div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px" data-i18n="stat_years">años de experiencia</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:42px;font-weight:900;color:var(--cyan)">200<span style="font-size:24px">+</span></div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px" data-i18n="stat_projects">proyectos completados</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="display:flex;flex-direction:column;gap:16px">
+        <div class="glass-card" style="padding:22px;border-left:3px solid var(--cyan)">
+          <div style="font-size:22px;margin-bottom:8px">🎯</div>
+          <h4 style="font-weight:700;color:var(--white);margin-bottom:6px" data-i18n="val1_t">Escalabilidad</h4>
+          <p style="font-size:13px;color:var(--muted2);line-height:1.5" data-i18n="val1_d">Diseñamos soluciones que crecen con tu empresa, no que la limitan.</p>
+        </div>
+        <div class="glass-card" style="padding:22px;border-left:3px solid var(--green)">
+          <div style="font-size:22px;margin-bottom:8px">🤝</div>
+          <h4 style="font-weight:700;color:var(--white);margin-bottom:6px" data-i18n="val2_t">IA Responsable</h4>
+          <p style="font-size:13px;color:var(--muted2);line-height:1.5" data-i18n="val2_d">Fomentamos el uso ético y centrado en el ser humano de la inteligencia artificial.</p>
+        </div>
+        <div class="glass-card" style="padding:22px;border-left:3px solid var(--yellow)">
+          <div style="font-size:22px;margin-bottom:8px">🔒</div>
+          <h4 style="font-weight:700;color:var(--white);margin-bottom:6px" data-i18n="val3_t">Sostenibilidad</h4>
+          <p style="font-size:13px;color:var(--muted2);line-height:1.5" data-i18n="val3_d">Resultados que generan impacto real y duradero en tu negocio.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metodología badge -->
+    <div style="margin-top:48px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);border-radius:16px;padding:28px;text-align:center" class="reveal">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;font-weight:600;letter-spacing:2px;text-transform:uppercase" data-i18n="meth_label">Nuestra Metodología</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center">
+        <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:10px 20px;font-weight:700;color:var(--cyan)" data-i18n="m1">Entender</div>
+        <div style="color:var(--muted);font-size:20px">→</div>
+        <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:10px 20px;font-weight:700;color:var(--cyan)" data-i18n="m2">Planear</div>
+        <div style="color:var(--muted);font-size:20px">→</div>
+        <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:10px 20px;font-weight:700;color:var(--cyan)" data-i18n="m3">Implementar</div>
+        <div style="color:var(--muted);font-size:20px">→</div>
+        <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:10px 20px;font-weight:700;color:var(--cyan)" data-i18n="m4">Optimizar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:768px){ .about-grid{ grid-template-columns:1fr !important; } }
+</style>
+
+
+<div class="gradient-line"></div>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="text-center reveal">
+      <div class="section-label" data-i18n="contact_label">Empezá hoy</div>
+      <h2 class="section-title" data-i18n="contact_title">Agendá tu Diagnóstico</h2>
+      <p class="section-sub" data-i18n="contact_sub">Completá el formulario y nos comunicamos en menos de 24 horas</p>
+    </div>
+    <div class="contact-wrap reveal">
+      <div class="contact-card">
+        <form id="contact-form" onsubmit="submitContact(event)">
+          <div class="g2">
+            <div class="field"><label data-i18n="c_name">Nombre completo *</label><input type="text" id="c-name" required></div>
+            <div class="field"><label data-i18n="c_company">Empresa *</label><input type="text" id="c-company" required></div>
+          </div>
+          <div class="g2">
+            <div class="field"><label data-i18n="c_email">Email *</label><input type="email" id="c-email" required></div>
+            <div class="field"><label data-i18n="c_phone">Teléfono</label><input type="tel" id="c-phone" placeholder="+506 8888-8888"></div>
+          </div>
+          <div class="field"><label data-i18n="c_msg">¿Cuál es tu mayor proceso manual?</label><textarea id="c-message" data-i18n-ph="c_msg_ph"></textarea></div>
+          <button type="submit" class="btn-submit" data-i18n="c_submit">📤 Enviar solicitud</button>
+          <div id="form-msg" class="form-msg"></div>
+        </form>
+      </div>
+      <div style="text-align:center;margin-top:20px;color:var(--muted);font-size:13px">
+        <span data-i18n="or_call">O llamanos al</span> <a href="tel:+50661101325" style="color:var(--cyan);font-weight:600">+506 6110-1325</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:info@nexaisolutionscr.com" style="color:var(--cyan)">info@nexaisolutionscr.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 NexAI Solutions CR · Grecia, Alajuela, Costa Rica</p>
+  <p style="margin-top:6px;font-size:12px;color:var(--muted)">Potenciado por Orbit 🪐 · <span data-i18n="footer_sub">Inteligencia Artificial a la medida para PYMES</span></p>
+</footer>
+
+<!-- Chat Widget -->
+<div id="chat-widget">
+  <button id="chat-bubble" onclick="toggleChat()">
+    <img src="./mascot.png" alt="Chat NexAI" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%2300d4ff%22/><text x=%2220%22 y=%2226%22 text-anchor=%22middle%22 font-size=%2218%22>🤖</text></svg>'">
+    <span id="chat-badge">1</span>
+  </button>
+  <div id="chat-box">
+    <div id="chat-header">
+      <img src="./mascot.png" alt="NexAI" onerror="this.style.display='none'">
+      <div><div class="name">NexAI Assistant</div><div class="status">● En línea</div></div>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+    <div id="chat-messages">
+      <div class="msg bot" data-i18n="chat_hello">👋 ¡Hola! Soy el asistente de NexAI. ¿Cómo puedo ayudarte hoy?</div>
+    </div>
+    <div id="chat-input-wrap">
+      <input type="text" id="chat-input" data-i18n-ph="chat_ph" onkeydown="if(event.key==='Enter')sendMsg()">
+      <button onclick="sendMsg()" id="chat-send">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── i18n ─────────────────────────────────────────────────────────────────────
+const T = {
+  es: {
+    badge:"🤖 NexAI Solutions CR",
+    hero_t1:"¿Cuánto te cuesta",hero_t2:"NO automatizar?",
+    hero_sub:"Calculá el costo real de tus procesos manuales y descubrí el ahorro potencial con Inteligencia Artificial en tu empresa.",
+    hero_cta1:"🚀 Calcular mi ROI",hero_cta2:"Ver cómo trabajamos →",
+    stat1:"% tiempo ahorrado",stat2:"semanas de implementación",stat3:"× ROI al primer año",stat4:"+ años de experiencia IT",
+    scroll:"Descubrí más",
+    nav_calc:"Calculadora",nav_process:"Proceso",nav_deliver:"Entregables",nav_contact:"Contacto",nav_about:"Quiénes somos",nav_cta:"Agendar Consulta",
+    calc_label:"Calculadora de ROI",calc_title:"Descubrí el costo real de tus procesos",calc_sub:"Agregá tus procesos manuales y verás en tiempo real cuánto podés ahorrar",
+    add_process:"Agregar proceso",lbl_name:"Nombre del proceso",ph_name:"ej. Generación de cotizaciones",
+    lbl_emps:"Empleados",lbl_hours:"Horas/semana",lbl_hcost:"Costo hora promedio (USD)",lbl_pot:"Potencial de automatización:",btn_add:"Agregar proceso",
+    results_title:"Resultados en tiempo real",empty:"Agregá al menos un proceso para ver resultados",
+    r_monthly:"Costo mensual actual",r_annual:"Costo anual total",r_savings:"Ahorro anual potencial",
+    r_payback:"Tiempo de recuperación",r_payback_sub:"Estimado con implementación a la medida",r_roi:"ROI estimado a 12 meses",
+    banner_pre:"Tu empresa podría ahorrar",banner_post:"al año",
+    banner_sub:"Agendá un Diagnóstico de Oportunidades IA y recibí una propuesta personalizada sin costo.",
+    banner_cta:"📅 Quiero mi diagnóstico",
+    process_label:"Nuestra Metodología",process_title:"Cómo transformamos tu empresa",process_sub:"Un proceso probado, claro y diseñado para generar resultados reales — no solo tecnología bonita",
+    s1_title:"Diagnóstico de Oportunidades IA",s1_desc:"Sesiones virtuales y presenciales donde escuchamos a tu equipo, mapeamos procesos e identificamos dónde se pierden tiempo y dinero. Sin suposiciones — con datos reales.",s1_tag:"2–4 sesiones · 2 semanas",
+    s2_title:"Análisis y Priorización",s2_desc:"Cuantificamos el costo de cada proceso, calculamos el ROI potencial y te entregamos un mapa de prioridades claro. Sabés exactamente qué automatizar primero y por qué.",s2_tag:"Reporte ejecutivo + roadmap",
+    s3_title:"Propuesta Personalizada",s3_desc:"Tres opciones adaptadas a tu presupuesto y ritmo. Desde quick wins con herramientas existentes hasta un sistema integrado de agentes IA.",s3_tag:"3 opciones · Sin compromiso",
+    s4_title:"Implementación y Alianza",s4_desc:"Construimos, integramos y capacitamos a tu equipo. No desaparecemos después del lanzamiento — somos tu socio estratégico a largo plazo.",s4_tag:"Soporte continuo incluido",
+    deliver_label:"Lo que recibís",deliver_title:"Qué incluye el Diagnóstico",deliver_sub:"El diagnóstico es valioso por sí mismo, independientemente de si avanzamos juntos en la implementación",
+    d1_t:"Mapa de Procesos",d1_d:"Documentación completa de tus procesos más costosos con flujos, responsables y datos.",
+    d2_t:"Análisis de Costos Ocultos",d2_d:"Cuantificamos cuánto le cuesta a tu empresa cada proceso en tiempo, errores y oportunidades perdidas.",
+    d3_t:"Oportunidades Priorizadas",d3_d:"Ranking de automatizaciones por impacto vs esfuerzo. Sabés exactamente por dónde empezar.",
+    d4_t:"Proyección de ROI",d4_d:"Ahorro anual estimado, tiempo de recuperación de inversión y ROI proyectado a 12 meses.",
+    d5_t:"Stack Tecnológico Recomendado",d5_d:"Las herramientas y plataformas de IA más adecuadas para tu negocio, equipo y presupuesto.",
+    d6_t:"Roadmap de Implementación",d6_d:"Plan de acción por fases con estimaciones de tiempo, costo y responsables para cada iniciativa.",
+    contact_label:"Empezá hoy",contact_title:"Agendá tu Diagnóstico",contact_sub:"Completá el formulario y nos comunicamos en menos de 24 horas",
+    c_name:"Nombre completo *",c_company:"Empresa *",c_email:"Email *",c_phone:"Teléfono",
+    c_msg:"¿Cuál es tu mayor proceso manual?",c_msg_ph:"Contanos brevemente cuál es el proceso que más tiempo consume...",c_submit:"📤 Enviar solicitud",
+    or_call:"O llamanos al",footer_sub:"Inteligencia Artificial a la medida para PYMES",
+    form_ok:"✅ ¡Gracias! Nos comunicamos en menos de 24 horas.",form_err:"⚠️ Error al enviar. Escribinos a info@nexaisolutionscr.com",
+    of_annual:"/año",of_month:"/mes",months_payback:" meses",pct_savings:"% del costo actual",
+    chat_hello:"👋 ¡Hola! Soy el asistente de NexAI. ¿Cómo puedo ayudarte hoy?",chat_ph:"Escribí tu pregunta...",
+    about_label:"Sobre NexAI",about_title:"Tecnología con propósito humano",about_sub:"Combinamos 22+ años de experiencia en empresas multinacionales con agilidad de consultora boutique",
+    founder_label:"Fundador & CEO",
+    founder_bio:"Líder en la industria tecnológica con 22 años de experiencia, mi misión es guiar y acompañar a dueños de empresa en el proceso de escalar, optimizar y transformar sus operaciones de forma estratégica. Entiendo que implementar IA no es solo adoptar tecnología — es rediseñar la forma en que tu empresa opera. Por eso construyo soluciones seguras, resilientes y sostenibles desde su concepción, desde un modelo integrado a la operación de tu empresa.",
+    founder_bio2:"",
+    stat_years:"años de experiencia",stat_projects:"proyectos completados",stat_companies:"",
+    val1_t:"Escalabilidad",val1_d:"Diseñamos soluciones que crecen con tu empresa, no que la limitan.",
+    val2_t:"IA Responsable",val2_d:"Fomentamos el uso ético y centrado en el ser humano de la inteligencia artificial.",
+    val3_t:"Seguro por Diseño",val3_d:"Implementamos soluciones seguras, resilientes y robustas desde su concepción — no como un parche posterior.",
+    meth_label:"Nuestra Metodología",m1:"Entender",m2:"Planear",m3:"Implementar",m4:"Optimizar"
+  },
+  en: {
+    badge:"🤖 NexAI Solutions CR",
+    hero_t1:"How much does it cost to",hero_t2:"NOT automate?",
+    hero_sub:"Calculate the real cost of your manual processes and discover the potential savings with AI in your business.",
+    hero_cta1:"🚀 Calculate my ROI",hero_cta2:"See how we work →",
+    stat1:"% average time saved",stat2:"weeks to implementation",stat3:"× ROI in first year",stat4:"+ years of IT experience",
+    scroll:"Discover more",
+    nav_calc:"Calculator",nav_process:"Process",nav_deliver:"Deliverables",nav_contact:"Contact",nav_about:"About us",nav_cta:"Schedule a Call",
+    calc_label:"ROI Calculator",calc_title:"Discover the real cost of your processes",calc_sub:"Add your manual processes and see in real-time how much you could save",
+    add_process:"Add process",lbl_name:"Process name",ph_name:"e.g. Quote generation",
+    lbl_emps:"Employees",lbl_hours:"Hours/week",lbl_hcost:"Average hourly cost (USD)",lbl_pot:"Automation potential:",btn_add:"Add process",
+    results_title:"Real-time results",empty:"Add at least one process to see results",
+    r_monthly:"Current monthly cost",r_annual:"Total annual cost",r_savings:"Potential annual savings",
+    r_payback:"Investment recovery time",r_payback_sub:"Estimated with custom implementation",r_roi:"Estimated ROI at 12 months",
+    banner_pre:"Your company could save",banner_post:"per year",
+    banner_sub:"Schedule an AI Opportunity Assessment and receive a personalized proposal at no cost.",
+    banner_cta:"📅 I want my assessment",
+    process_label:"Our Methodology",process_title:"How we transform your business",process_sub:"A proven, clear process designed to deliver real results — not just fancy technology",
+    s1_title:"AI Opportunity Assessment",s1_desc:"Virtual and in-person sessions where we listen to your team, map processes, and identify where time and money are being lost. No assumptions — real data.",s1_tag:"2–4 sessions · 2 weeks",
+    s2_title:"Analysis & Prioritization",s2_desc:"We quantify the cost of each process, calculate potential ROI, and deliver a clear priority map. You know exactly what to automate first and why.",s2_tag:"Executive report + roadmap",
+    s3_title:"Personalized Proposal",s3_desc:"Three options adapted to your budget and pace — from quick wins with existing tools to a fully integrated AI agent system.",s3_tag:"3 options · No commitment",
+    s4_title:"Implementation & Partnership",s4_desc:"We build, integrate, and train your team. We don't disappear after launch — we're your long-term strategic partner.",s4_tag:"Continuous support included",
+    deliver_label:"What you receive",deliver_title:"What's included in the Assessment",deliver_sub:"The assessment is valuable in itself, regardless of whether we move forward with implementation",
+    d1_t:"Process Map",d1_d:"Complete documentation of your most costly processes with flows, owners, and data.",
+    d2_t:"Hidden Cost Analysis",d2_d:"We quantify what each process costs your company in time, errors, and missed opportunities.",
+    d3_t:"Prioritized Opportunities",d3_d:"Automation ranking by impact vs effort. You'll know exactly where to start.",
+    d4_t:"ROI Projection",d4_d:"Annual savings estimate, investment recovery time, and projected 12-month ROI.",
+    d5_t:"Recommended Tech Stack",d5_d:"The AI tools and platforms best suited for your business, team, and budget.",
+    d6_t:"Implementation Roadmap",d6_d:"Phased action plan with time, cost, and owner estimates for each initiative.",
+    contact_label:"Start today",contact_title:"Schedule your Assessment",contact_sub:"Fill out the form and we'll be in touch within 24 hours",
+    c_name:"Full name *",c_company:"Company *",c_email:"Email *",c_phone:"Phone",
+    c_msg:"What is your biggest manual process?",c_msg_ph:"Tell us briefly which process takes the most time...",c_submit:"📤 Send request",
+    or_call:"Or call us at",footer_sub:"Custom Artificial Intelligence for SMBs",
+    form_ok:"✅ Thank you! We'll be in touch within 24 hours.",form_err:"⚠️ Error sending. Write to us at info@nexaisolutionscr.com",
+    of_annual:"/year",of_month:"/mo",months_payback:" months",pct_savings:"% of current cost",
+    chat_hello:"👋 Hi! I'm NexAI's assistant. How can I help you today?",chat_ph:"Type your question...",
+    about_label:"About NexAI",about_title:"Technology with human purpose",about_sub:"We combine 22+ years of experience at multinational companies with boutique consultancy agility",
+    founder_label:"Founder & CEO",
+    founder_bio:"Technology industry leader with 23+ years of experience. I focus on guiding and accompanying business owners through the process of scaling, optimizing, and strategically transforming their operations. Implementing AI is not just adopting technology — it's redesigning how your business operates with secure, resilient, and sustainable solutions built by design.",
+    founder_bio2:"",
+    stat_years:"years of experience",stat_projects:"completed projects",stat_companies:"",
+    val1_t:"Scalability",val1_d:"We design solutions that grow with your business, not ones that limit it.",
+    val2_t:"Responsible AI",val2_d:"We promote the ethical and human-centered use of artificial intelligence.",
+    val3_t:"Secure by Design",val3_d:"We build secure, resilient, and robust solutions from their conception — not as an afterthought.",
+    meth_label:"Our Methodology",m1:"Understand",m2:"Plan",m3:"Implement",m4:"Optimize"
+  }
+};
+
+let lang = 'es', currency = 'USD';
+const CRC = 525;
+
+function t(k) { return T[lang][k] || k; }
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    if (b.textContent === 'ES' || b.textContent === 'EN')
+      b.classList.toggle('active', b.textContent === l.toUpperCase());
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (T[l][k] !== undefined) el.textContent = T[l][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if (T[l][k]) el.placeholder = T[l][k];
+  });
+  updateResults();
+}
+
+function setCurrency(c) {
+  currency = c;
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    if (b.textContent === 'USD' || b.textContent === '₡')
+      b.classList.toggle('active', b.textContent === (c==='USD'?'USD':'₡'));
+  });
+  updateResults();
+}
+
+function fmt(usd) {
+  if (currency === 'CRC') return '₡' + Math.round(usd*CRC).toLocaleString('es-CR');
+  return '$' + usd.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+}
+
+// ── AI Agents Network Animation ──────────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const DEFS = [
+    {label:'Orbit',sub:'Orchestrator',color:'#00d4ff',size:32},
+    {label:'NLP',sub:'Language',color:'#0ea5e9',size:24},
+    {label:'Vision',sub:'Image AI',color:'#38bdf8',size:22},
+    {label:'Analytics',sub:'Data',color:'#22d3ee',size:22},
+    {label:'AutoBot',sub:'Process',color:'#67e8f9',size:20},
+    {label:'CRM AI',sub:'Sales',color:'#0891b2',size:20},
+    {label:'Finance',sub:'Costs',color:'#06b6d4',size:20},
+    {label:'Email',sub:'Comms',color:'#7dd3fc',size:18},
+    {label:'Schedule',sub:'Calendar',color:'#a5f3fc',size:18},
+    {label:'Reports',sub:'BI',color:'#0284c7',size:18},
+    {label:'Support',sub:'Help',color:'#38bdf8',size:18},
+  ];
+  let agents=[], packets=[], frame=0;
+  function resize(){
+    W=canvas.width=innerWidth; H=canvas.height=innerHeight;
+    agents=DEFS.map((d,i)=>{
+      const a=(i/DEFS.length)*Math.PI*2, j=0.35+Math.random()*0.35;
+      return {...d,
+        x:W/2+Math.cos(a)*W*j,y:H/2+Math.sin(a)*H*j,
+        vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,
+        phase:Math.random()*Math.PI*2,phaseSpd:0.015+Math.random()*.015,
+        active:false,activeT:0};
+    });
+    packets=[];
+  }
+  const CONNS=()=>{
+    const c=[];
+    for(let i=1;i<agents.length;i++) c.push([0,i]);
+    for(let i=1;i<agents.length-1;i++) c.push([i,i+1]);
+    c.push([1,agents.length-1]);
+    return c;
+  };
+  function spawnPkt(){
+    if(packets.length>=20) return;
+    const cc=CONNS(), c=cc[Math.floor(Math.random()*cc.length)];
+    const rev=Math.random()>.5, f=rev?c[1]:c[0], t=rev?c[0]:c[1];
+    packets.push({f,t,p:0,spd:0.004+Math.random()*.007,col:agents[f].color,sz:2+Math.random()*2});
+  }
+  function draw(){
+    frame++;
+    ctx.clearRect(0,0,W,H);
+    agents.forEach(a=>{
+      a.x+=a.vx; a.y+=a.vy; a.phase+=a.phaseSpd;
+      if(a.activeT>0) a.activeT--; else a.active=false;
+      const mx=W*.12,my=H*.12;
+      if(a.x<mx||a.x>W-mx) a.vx*=-1;
+      if(a.y<my||a.y>H-my) a.vy*=-1;
+    });
+    CONNS().forEach(([i,j])=>{
+      const a=agents[i],b=agents[j];
+      const g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+      g.addColorStop(0,a.color+'30'); g.addColorStop(1,b.color+'18');
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle=g;ctx.lineWidth=.7;ctx.stroke();
+    });
+    packets.forEach((pk,pi)=>{
+      pk.p+=pk.spd;
+      if(pk.p>=1){packets.splice(pi,1);agents[pk.t].active=true;agents[pk.t].activeT=40;return;}
+      const a=agents[pk.f],b=agents[pk.t];
+      const x=a.x+(b.x-a.x)*pk.p, y=a.y+(b.y-a.y)*pk.p;
+      const p2=Math.max(0,pk.p-.07);
+      const x2=a.x+(b.x-a.x)*p2,y2=a.y+(b.y-a.y)*p2;
+      const tg=ctx.createLinearGradient(x2,y2,x,y);
+      tg.addColorStop(0,'transparent');tg.addColorStop(1,pk.col+'99');
+      ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x,y);
+      ctx.strokeStyle=tg;ctx.lineWidth=pk.sz*.8;ctx.stroke();
+      ctx.beginPath();ctx.arc(x,y,pk.sz,0,Math.PI*2);
+      ctx.fillStyle=pk.col+'ee';ctx.fill();
+    });
+    if(frame%30===0) spawnPkt();
+    agents.forEach(a=>{
+      const pulse=Math.sin(a.phase)*.25+.75, r=a.size, isOrbit=a===agents[0];
+      if(a.active||isOrbit){
+        const rr=r+6+Math.sin(a.phase*2)*3;
+        ctx.beginPath();ctx.arc(a.x,a.y,rr,0,Math.PI*2);
+        ctx.strokeStyle=a.color+(a.active?'88':isOrbit?'55':'22');
+        ctx.lineWidth=isOrbit?2:1.2;ctx.stroke();
+        if(isOrbit){
+          const rr2=r+14+Math.sin(a.phase*1.5)*4;
+          ctx.beginPath();ctx.arc(a.x,a.y,rr2,0,Math.PI*2);
+          ctx.strokeStyle=a.color+'22';ctx.lineWidth=.8;ctx.stroke();
+        }
+      }
+      const grd=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r*3);
+      grd.addColorStop(0,a.color+(a.active?'44':isOrbit?'33':'18'));
+      grd.addColorStop(1,'transparent');
+      ctx.beginPath();ctx.arc(a.x,a.y,r*3,0,Math.PI*2);
+      ctx.fillStyle=grd;ctx.fill();
+      const ng=ctx.createRadialGradient(a.x-r*.3,a.y-r*.3,0,a.x,a.y,r*pulse);
+      ng.addColorStop(0,a.color+(a.active||isOrbit?'ff':'cc'));
+      ng.addColorStop(1,a.color+'44');
+      ctx.beginPath();ctx.arc(a.x,a.y,r*pulse,0,Math.PI*2);
+      ctx.fillStyle=ng;ctx.fill();
+      ctx.strokeStyle=a.color+(a.active?'ff':isOrbit?'cc':'77');
+      ctx.lineWidth=a.active?2:1;ctx.stroke();
+      const fs=Math.max(9,r*.52);
+      ctx.font=`700 ${fs}px Inter,sans-serif`;
+      ctx.fillStyle='#ffffff'+(a.active||isOrbit?'ff':'dd');
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(a.label,a.x,a.y-fs*.2);
+      ctx.font=`${Math.max(7,r*.35)}px Inter,sans-serif`;
+      ctx.fillStyle=a.color+(a.active?'cc':'66');
+      ctx.fillText(a.sub,a.x,a.y+fs*.9);
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); window.addEventListener('resize',resize);
+  for(let i=0;i<10;i++) setTimeout(spawnPkt,i*150);
+  draw();
+})();
+
+// ── Counter animation ────────────────────────────────────────────────────────
+function animateCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.getAttribute('data-count');
+    let current=0;
+    const step=target/40;
+    const interval=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=Math.floor(current)+(target>=10?'':'.'+Math.floor((current%1)*10));
+      if(current>=target){el.textContent=target;clearInterval(interval);}
+    },30);
+  });
+}
+setTimeout(animateCounters, 600);
+
+// ── Scroll reveal ────────────────────────────────────────────────────────────
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── Calculator ───────────────────────────────────────────────────────────────
+let processes = [];
+function addProcess(){
+  const name=document.getElementById('pname').value.trim();
+  const emps=parseFloat(document.getElementById('pemps').value)||1;
+  const hours=parseFloat(document.getElementById('phours').value)||0;
+  const hcost=parseFloat(document.getElementById('phourcost').value)||5;
+  const pot=parseInt(document.getElementById('ppot').value)||70;
+  if(!name)return;
+  const monthlyCost=hours*4.33*emps*hcost;
+  const annualCost=monthlyCost*12;
+  const savings=annualCost*(pot/100);
+  processes.push({name,emps,hours,hcost,pot,monthlyCost,annualCost,savings,id:Date.now()});
+  document.getElementById('pname').value='';
+  renderProcesses(); updateResults();
+}
+function removeProcess(id){
+  processes=processes.filter(p=>p.id!==id);
+  renderProcesses(); updateResults();
+}
+function renderProcesses(){
+  document.getElementById('process-list').innerHTML=processes.map(p=>`
+    <div class="process-row">
+      <div style="flex:1">
+        <div class="pname">${p.name}</div>
+        <div class="pmeta">${p.emps} emp · ${p.hours}h/sem · $${p.hcost}/h · ${p.pot}%</div>
+      </div>
+      <div style="text-align:right">
+        <div class="pcost">${fmt(p.annualCost)}${t('of_annual')}</div>
+        <div class="psave">↓ ${fmt(p.savings)}</div>
+      </div>
+      <button class="btn-rm" onclick="removeProcess(${p.id})">✕</button>
+    </div>`).join('');
+}
+function updateResults(){
+  const tM=processes.reduce((s,p)=>s+p.monthlyCost,0);
+  const tA=processes.reduce((s,p)=>s+p.annualCost,0);
+  const tS=processes.reduce((s,p)=>s+p.savings,0);
+  const empty=!processes.length;
+  document.getElementById('empty-state').style.display=empty?'block':'none';
+  document.getElementById('results-block').style.display=empty?'none':'block';
+  if(empty){document.getElementById('cta-dynamic').style.display='none';return;}
+  document.getElementById('r-monthly').textContent=fmt(tM)+t('of_month');
+  document.getElementById('r-annual').textContent=fmt(tA)+t('of_annual');
+  document.getElementById('r-savings').textContent=fmt(tS)+t('of_annual');
+  const pct=tA>0?Math.round((tS/tA)*100):0;
+  document.getElementById('r-savings-pct').textContent=pct+t('pct_savings');
+  document.getElementById('bar-monthly').style.width=Math.min(100,(tM/5000)*100)+'%';
+  document.getElementById('bar-savings').style.width=Math.min(100,pct)+'%';
+  const invest=4000, mS=tS/12;
+  const payback=mS>0?Math.ceil(invest/mS):null;
+  document.getElementById('r-payback').textContent=payback?payback+t('months_payback'):'–';
+  const roi=invest>0&&tS>0?Math.round(((tS-invest)/invest)*100):null;
+  const roiEl=document.getElementById('r-roi');
+  roiEl.textContent=roi!==null?roi+'%':'–';
+  roiEl.style.color=roi>0?'var(--green)':'var(--red)';
+  const banner=document.getElementById('cta-dynamic');
+  banner.style.display=tS>0?'block':'none';
+  document.getElementById('banner-savings').textContent=fmt(tS);
+  renderProcesses();
+}
+
+// ── Contact ──────────────────────────────────────────────────────────────────
+const SUPABASE_URL='https://irmoiljkckibzokhrwcw.supabase.co';
+const SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlybW9pbGprY2tpYnpva2hyd2N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NDA3NzIsImV4cCI6MjA4OTAxNjc3Mn0.RQYZJ3yqubOg8kxzgApCT940Ap9yoY1vhIsQmb3_RdU';
+
+async function submitContact(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('button[type=submit]');
+  const msgEl=document.getElementById('form-msg');
+  btn.disabled=true; btn.textContent='⏳ Enviando...';
+  const payload={
+    name:document.getElementById('c-name').value,
+    company:document.getElementById('c-company').value,
+    email:document.getElementById('c-email').value,
+    phone:document.getElementById('c-phone').value,
+    message:document.getElementById('c-message').value,
+    source:'roi-calculator'
+  };
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/nexai_leads`,{
+      method:'POST',headers:{'apikey':SUPABASE_ANON,'Authorization':`Bearer ${SUPABASE_ANON}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(payload)
+    });
+    if(res.ok||res.status===201){
+      msgEl.className='form-msg ok'; msgEl.style.display='block'; msgEl.textContent=t('form_ok');
+      document.getElementById('contact-form').reset();
+    } else throw new Error('HTTP '+res.status);
+  }catch{
+    msgEl.className='form-msg err'; msgEl.style.display='block'; msgEl.textContent=t('form_err');
+  }
+  btn.disabled=false; btn.textContent=t('c_submit');
+}
+
+// ── Chat ─────────────────────────────────────────────────────────────────────
+let chatHistory=[],chatOpen=false;
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chat-box').classList.toggle('open',chatOpen);
+  document.getElementById('chat-badge').style.display='none';
+  if(chatOpen)document.getElementById('chat-input').focus();
+}
+async function sendMsg(){
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim(); if(!text)return;
+  input.value='';
+  appendMsg(text,'user');
+  chatHistory.push({role:'user',content:text});
+  const typing=appendMsg('...','bot typing');
+  document.getElementById('chat-send').disabled=true;
+  try{
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory})});
+    const data=await res.json();
+    const reply=data.reply||'⚠️ Error. Escribinos a info@nexaisolutionscr.com';
+    typing.textContent=reply; typing.classList.remove('typing');
+    chatHistory.push({role:'assistant',content:reply});
+  }catch{
+    typing.textContent='⚠️ Sin conexión. Escribinos a info@nexaisolutionscr.com';
+    typing.classList.remove('typing');
+  }
+  document.getElementById('chat-send').disabled=false;
+}
+function appendMsg(text,cls){
+  const msgs=document.getElementById('chat-messages');
+  const el=document.createElement('div'); el.className='msg '+cls; el.textContent=text;
+  msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight; return el;
+}
+setTimeout(()=>{ if(!chatOpen)document.getElementById('chat-badge').style.display='flex'; },8000);
+
+// Init
+setLang('es');
+</script>
+</body>
+</html>
