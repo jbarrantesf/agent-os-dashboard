@@ -218,3 +218,128 @@ body {
 }
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============================================================
+   RESPONSIVE — MOBILE FIRST
+   ============================================================ */
+
+/* Mobile overlay behind the sidebar drawer */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 40;
+}
+
+/* Sidebar panel — desktop default */
+.sidebar-panel {
+  position: relative;
+  z-index: 50;
+}
+
+/* Hamburger button — hidden on desktop */
+.hamburger-btn {
+  display: none;
+}
+
+/* Sidebar collapse button — visible on desktop */
+.sidebar-collapse-btn {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  /* Show hamburger, hide collapse toggle */
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sidebar-collapse-btn {
+    display: none;
+  }
+
+  /* Sidebar becomes a fixed drawer */
+  .sidebar-panel {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 50;
+  }
+  .sidebar-panel.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Show overlay when drawer is open */
+  .sidebar-panel.mobile-open ~ * .mobile-overlay,
+  .mobile-overlay {
+    display: block;
+  }
+
+  /* Tighten main content padding on mobile */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  /* Touch-friendly tap targets */
+  button, a, select {
+    min-height: 40px;
+  }
+
+  /* Metric cards: 2-col on mobile */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Budget labels: stack on mobile */
+  .budget-labels {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
+
+  /* Chat input: bigger textarea on mobile */
+  .chat-bubble-user, .chat-bubble-agent {
+    max-width: 92% !important;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Single column for very small phones */
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Ensure viewport is set for mobile browsers */
+@media screen and (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* Horizontal scroll for kanban on mobile */
+.kanban-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 1rem;
+}
+.kanban-scroll > * {
+  min-width: 260px;
+}
+
+/* Production page filter buttons — wrap on mobile */
+.filter-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;
+}
+@media (max-width: 600px) {
+  .filter-scroll {
+    flex-wrap: wrap;
+  }
+}

@@ -148,7 +148,7 @@ export default function ProjectsPage() {
   return (
     <div className="p-6 space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start sm:items-center justify-between gap-3">
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)' }}>
             📁 Proyectos
@@ -159,7 +159,7 @@ export default function ProjectsPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 flex-shrink-0"
           style={{
             background: 'var(--accent-blue)',
             border: 'none',
@@ -286,7 +286,7 @@ export default function ProjectsPage() {
           Cargando tareas...
         </div>
       ) : (
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="kanban-scroll flex gap-4">
           {STATUSES.map(status => (
             <Column
               key={status}

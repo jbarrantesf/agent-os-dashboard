@@ -8,3 +8,4 @@ npm-debug.log*
 .vercel/
 .idea/
 .vscode/
+.vercel

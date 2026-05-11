@@ -137,7 +137,7 @@ export default function DashboardPage() {
   return (
     <div className="p-6 space-y-6">
       {/* Header row */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start sm:items-center justify-between gap-3">
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)' }}>
             🗼 Torre de Control
@@ -148,7 +148,7 @@ export default function DashboardPage() {
         </div>
         <button
           onClick={refresh}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 flex-shrink-0"
           style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border)',
@@ -166,7 +166,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="kpi-grid grid gap-4" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
         <MetricCard
           title="Costo Hoy"
           value={`$${m.costToday.toFixed(3)}`}
@@ -235,7 +235,7 @@ export default function DashboardPage() {
             }}
           />
         </div>
-        <div className="flex justify-between mt-2">
+        <div className="flex justify-between mt-2 budget-labels">
           <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>$0</span>
           <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
             Restante: ${(m.costBudget - m.costMonth).toFixed(2)}

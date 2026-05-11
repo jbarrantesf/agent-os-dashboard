@@ -3,29 +3,47 @@ import DashboardPage from './pages/DashboardPage'
 import AgentsPage from './pages/AgentsPage'
 import ChatPage from './pages/ChatPage'
 import ProjectsPage from './pages/ProjectsPage'
+import ProductionPage from './pages/ProductionPage'
 import {
   LayoutDashboard,
   Bot,
   MessageSquare,
   Folders,
+  Layers,
   Activity,
   Zap,
   ChevronRight,
   Bell,
-  Settings
+  Settings,
+  Menu,
+  X
 } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Torre de Control', icon: LayoutDashboard },
-  { id: 'agents',    label: 'Agentes',          icon: Bot },
-  { id: 'chat',      label: 'Chat Orquestador', icon: MessageSquare },
-  { id: 'projects',  label: 'Proyectos',         icon: Folders },
+  { id: 'dashboard',  label: 'Torre de Control', icon: LayoutDashboard },
+  { id: 'agents',     label: 'Agentes',           icon: Bot },
+  { id: 'chat',       label: 'Chat Orquestador',  icon: MessageSquare },
+  { id: 'projects',   label: 'Proyectos',          icon: Folders },
+  { id: 'production', label: 'Prod / Vercel',      icon: Layers },
 ]
 
 export default function App() {
   const [page, setPage] = useState('dashboard')
   const [time, setTime] = useState(new Date())
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false)
+      }
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000)
@@ -37,11 +55,27 @@ export default function App() {
   const formatDate = (d) =>
     d.toLocaleDateString('es-CR', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
 
+  const navigateTo = (id) => {
+    setPage(id)
+    setMobileOpen(false) // auto-close on mobile
+  }
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
+
+      {/* MOBILE OVERLAY */}
+      {mobileOpen && (
+        <div
+          className="mobile-overlay"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
       {/* SIDEBAR */}
       <aside
-        className="flex flex-col flex-shrink-0 transition-all duration-300"
+        className={`sidebar-panel flex flex-col flex-shrink-0 transition-all duration-300 ${mobileOpen ? 'mobile-open' : ''}`}
         style={{
           width: sidebarOpen ? 240 : 64,
           background: 'var(--bg-secondary)',
@@ -71,6 +105,16 @@ export default function App() {
               </div>
             </div>
           )}
+          {/* Mobile close button inside sidebar */}
+          {mobileOpen && (
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="ml-auto"
+              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4 }}
+            >
+              <X size={18} />
+            </button>
+          )}
         </div>
 
         {/* Nav */}
@@ -80,7 +124,7 @@ export default function App() {
               key={id}
               className={`nav-item ${page === id ? 'active' : ''}`}
               style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}
-              onClick={() => setPage(id)}
+              onClick={() => navigateTo(id)}
               title={!sidebarOpen ? label : undefined}
             >
               <Icon size={18} />
@@ -108,8 +152,9 @@ export default function App() {
           </div>
         )}
 
-        {/* Collapse toggle */}
+        {/* Collapse toggle — desktop only */}
         <button
+          className="sidebar-collapse-btn"
           onClick={() => setSidebarOpen(!sidebarOpen)}
           style={{
             padding: '12px',
@@ -135,17 +180,32 @@ export default function App() {
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {/* Top bar */}
         <header
-          className="flex items-center justify-between px-6 py-3 flex-shrink-0"
+          className="flex items-center justify-between px-4 md:px-6 py-3 flex-shrink-0"
           style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)', height: 56 }}
         >
           <div className="flex items-center gap-3">
+            {/* Hamburger — mobile only */}
+            <button
+              className="hamburger-btn"
+              onClick={() => setMobileOpen(true)}
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                padding: '6px 8px',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+              }}
+            >
+              <Menu size={18} />
+            </button>
             <Activity size={16} style={{ color: 'var(--accent-cyan)' }} />
             <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontWeight: 500 }}>
               {NAV_ITEMS.find(n => n.id === page)?.label}
             </span>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="hidden sm:flex items-center gap-2">
               <span className="status-dot online" />
               <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 500 }}>Sistema Operativo</span>
             </div>
@@ -179,9 +239,10 @@ export default function App() {
         {/* Page content */}
         <main className="flex-1 overflow-auto">
           {page === 'dashboard' && <DashboardPage />}
-          {page === 'agents'    && <AgentsPage setPage={setPage} />}
+          {page === 'agents'    && <AgentsPage setPage={navigateTo} />}
           {page === 'chat'      && <ChatPage />}
-          {page === 'projects'  && <ProjectsPage />}
+          {page === 'projects'   && <ProjectsPage />}
+          {page === 'production' && <ProductionPage />}
         </main>
       </div>
     </div>
