@@ -80,15 +80,35 @@ function ProjectCard({ project }) {
   const badgeColor  = CATEGORY_BADGE[project.category]  || 'bg-zinc-700 text-zinc-300'
   const fwColor     = FRAMEWORK_COLORS[project.framework] || FRAMEWORK_COLORS.static
   const fwIcon      = FRAMEWORK_ICON[project.framework]  || '📦'
+  const isLive      = project.status === 'READY'
+
+  const handleOpen = () => {
+    if (isLive) window.open(project.url, '_blank', 'noopener,noreferrer')
+  }
 
   return (
-    <div className={`bg-zinc-800/60 border border-zinc-700/50 border-l-2 ${borderColor} rounded-lg p-4 hover:bg-zinc-800 transition-all group`}>
+    <div
+      onClick={handleOpen}
+      role={isLive ? 'link' : undefined}
+      tabIndex={isLive ? 0 : undefined}
+      onKeyDown={e => e.key === 'Enter' && handleOpen()}
+      className={`bg-zinc-800/60 border border-zinc-700/50 border-l-2 ${borderColor} rounded-lg p-4 transition-all group ${isLive ? 'project-card-clickable' : 'opacity-60'}`}
+      title={isLive ? `Abrir ${project.url}` : 'Sin deploy activo'}
+    >
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-zinc-100 truncate group-hover:text-white transition-colors">
-            {project.name}
-          </h3>
-          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+          <div className="flex items-center gap-1.5 mb-0.5">
+            <h3 className="text-sm font-semibold text-zinc-100 truncate group-hover:text-white transition-colors">
+              {project.name}
+            </h3>
+            {isLive && (
+              <ExternalLink
+                size={11}
+                className="shrink-0 text-zinc-500 group-hover:text-cyan-400 transition-colors"
+              />
+            )}
+          </div>
+          <div className="flex items-center gap-2 mt-1 flex-wrap">
             <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${fwColor}`}>
               {fwIcon} {project.framework}
             </span>
@@ -100,17 +120,12 @@ function ProjectCard({ project }) {
         <StatusBadge status={project.status} />
       </div>
 
-      <a
-        href={project.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-cyan-400 transition-colors truncate group/link"
-        title={project.url}
+      <div
+        className="flex items-center gap-1.5 text-xs text-zinc-500 group-hover:text-cyan-400 transition-colors truncate"
       >
         <Globe size={11} className="shrink-0" />
         <span className="truncate">{project.url.replace('https://', '')}</span>
-        <ExternalLink size={10} className="shrink-0 opacity-0 group-hover/link:opacity-100 transition-opacity" />
-      </a>
+      </div>
     </div>
   )
 }
