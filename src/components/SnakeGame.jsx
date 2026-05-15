@@ -170,17 +170,36 @@ export default function SnakeGame() {
   }, [gameState])
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      <canvas
-        ref={canvasRef}
-        width={CANVAS_SIZE}
-        height={CANVAS_SIZE}
-        className="border-4 border-purple-500 shadow-xl rounded-lg"
-      />
-      <div className="text-white text-xl font-bold">Score: {gameState.score}</div>
-      {gameState.gameOver && (
-        <div className="text-red-500 text-2xl font-bold">GAME OVER!</div>
-      )}
+    <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-1 rounded-2xl shadow-2xl">
+        <canvas
+          ref={canvasRef}
+          width={CANVAS_SIZE}
+          height={CANVAS_SIZE}
+          className="border-4 border-slate-900 shadow-2xl rounded-xl bg-slate-800 block"
+        />
+      </div>
+
+      <div className="flex justify-between items-center w-full px-4 gap-8">
+        <div className="text-center flex-1">
+          <p className="text-gray-400 text-sm uppercase tracking-widest">Score</p>
+          <p className="text-4xl font-bold text-transparent bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text">
+            {gameState.score}
+          </p>
+        </div>
+
+        <div className="text-center flex-1">
+          <p className="text-gray-400 text-sm uppercase tracking-widest">Status</p>
+          <p className={`text-2xl font-bold ${
+            gameState.gameOver ? 'text-red-500' :
+            gameState.gameStarted ? 'text-green-500' :
+            'text-yellow-500'
+          }`}>
+            {gameState.gameOver ? 'GAME OVER' : gameState.gameStarted ? 'PLAYING' : 'READY'}
+          </p>
+        </div>
+      </div>
+
       <button
         onClick={() => {
           if (gameState.gameOver) {
@@ -199,10 +218,14 @@ export default function SnakeGame() {
             setGameState(prev => ({ ...prev, gameStarted: true }))
           }
         }}
-        className="px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
+        className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 text-lg"
       >
-        {gameState.gameOver ? 'RESTART GAME' : gameState.gameStarted ? 'PAUSE' : 'START GAME'}
+        {gameState.gameOver ? '🔄 RESTART GAME' : gameState.gameStarted ? '⏸ PAUSE' : '▶ START GAME'}
       </button>
+
+      <div className="text-gray-400 text-sm text-center">
+        <p>Use arrow keys to move • Eat red food to grow • Avoid yourself!</p>
+      </div>
     </div>
   )
 }
