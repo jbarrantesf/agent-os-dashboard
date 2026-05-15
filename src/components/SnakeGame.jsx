@@ -16,6 +16,107 @@ export default function SnakeGame() {
     gameStarted: false,
   })
 
+  // Handle keyboard input
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      const key = e.key.toLowerCase()
+      if (!gameState.gameStarted) return
+
+      // Prevent default arrow key behavior
+      if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
+        e.preventDefault()
+      }
+
+      switch (key) {
+        case 'arrowup':
+          setGameState(prev => (
+            {
+              ...prev,
+              nextDirection: prev.direction.y === 0 ? { x: 0, y: -1 } : prev.nextDirection
+            }
+          ))
+          break
+        case 'arrowdown':
+          setGameState(prev => (
+            {
+              ...prev,
+              nextDirection: prev.direction.y === 0 ? { x: 0, y: 1 } : prev.nextDirection
+            }
+          ))
+          break
+        case 'arrowleft':
+          setGameState(prev => (
+            {
+              ...prev,
+              nextDirection: prev.direction.x === 0 ? { x: -1, y: 0 } : prev.nextDirection
+            }
+          ))
+          break
+        case 'arrowright':
+          setGameState(prev => (
+            {
+              ...prev,
+              nextDirection: prev.direction.x === 0 ? { x: 1, y: 0 } : prev.nextDirection
+            }
+          ))
+          break
+        default:
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [gameState.gameStarted, gameState.direction])
+
+  // Game loop
+  useEffect(() => {
+    if (!gameState.gameStarted || gameState.gameOver) return
+
+    const interval = setInterval(() => {
+      setGameState(prev => {
+        // Update direction
+        const direction = prev.nextDirection
+
+        // Calculate new head position
+        const newHead = {
+          x: (prev.snake[0].x + direction.x + GRID_SIZE) % GRID_SIZE,
+          y: (prev.snake[0].y + direction.y + GRID_SIZE) % GRID_SIZE,
+        }
+
+        // Check collision with self
+        if (prev.snake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
+          return { ...prev, gameOver: true }
+        }
+
+        // Check if food eaten
+        const foodEaten = newHead.x === prev.food.x && newHead.y === prev.food.y
+
+        let newSnake = [newHead, ...prev.snake]
+        if (!foodEaten) {
+          newSnake = newSnake.slice(0, -1)
+        }
+
+        const newFood = foodEaten
+          ? {
+              x: Math.floor(Math.random() * GRID_SIZE),
+              y: Math.floor(Math.random() * GRID_SIZE),
+            }
+          : prev.food
+
+        return {
+          ...prev,
+          snake: newSnake,
+          food: newFood,
+          direction,
+          score: foodEaten ? prev.score + 10 : prev.score,
+        }
+      })
+    }, 150)
+
+    return () => clearInterval(interval)
+  }, [gameState.gameStarted, gameState.gameOver])
+
   // Draw game on canvas
   useEffect(() => {
     const canvas = canvasRef.current
