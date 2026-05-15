@@ -183,11 +183,25 @@ export default function SnakeGame() {
       )}
       <button
         onClick={() => {
-          setGameState({ ...gameState, gameStarted: true })
+          if (gameState.gameOver) {
+            setGameState({
+              snake: [{ x: 10, y: 10 }],
+              food: { x: 15, y: 15 },
+              direction: { x: 1, y: 0 },
+              nextDirection: { x: 1, y: 0 },
+              score: 0,
+              gameOver: false,
+              gameStarted: true,
+            })
+          } else if (gameState.gameStarted) {
+            setGameState(prev => ({ ...prev, gameStarted: false }))
+          } else {
+            setGameState(prev => ({ ...prev, gameStarted: true }))
+          }
         }}
         className="px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
       >
-        {gameState.gameStarted ? 'RESTART' : 'START GAME'}
+        {gameState.gameOver ? 'RESTART GAME' : gameState.gameStarted ? 'PAUSE' : 'START GAME'}
       </button>
     </div>
   )
