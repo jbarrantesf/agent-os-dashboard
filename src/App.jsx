@@ -24,7 +24,6 @@ import {
   Shield,
   FileText
 } from 'lucide-react'
-import './App.css'
 
 // Sidebar structure similar to Danny
 const SIDEBAR_SECTIONS = {
