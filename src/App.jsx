@@ -5,6 +5,7 @@ import ChatPage from './pages/ChatPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProductionPage from './pages/ProductionPage'
 import SnakeGamePage from './pages/SnakeGamePage'
+import CostsDashboard from './pages/CostsDashboard'
 import {
   LayoutDashboard,
   Bot,
@@ -17,7 +18,8 @@ import {
   Bell,
   Settings,
   Menu,
-  X
+  X,
+  TrendingDown
 } from 'lucide-react'
 
 const NAV_ITEMS = [
@@ -25,6 +27,7 @@ const NAV_ITEMS = [
   { id: 'agents',     label: 'Agentes',           icon: Bot },
   { id: 'chat',       label: 'Chat Orquestador',  icon: MessageSquare },
   { id: 'projects',   label: 'Proyectos',          icon: Folders },
+  { id: 'costs',      label: 'Costos & ROI',       icon: TrendingDown },
   { id: 'snake',      label: 'Snake Game',         icon: Zap },
   { id: 'production', label: 'Prod / Vercel',      icon: Layers },
 ]
@@ -244,6 +247,7 @@ export default function App() {
           {page === 'agents'    && <AgentsPage setPage={navigateTo} />}
           {page === 'chat'      && <ChatPage />}
           {page === 'projects'   && <ProjectsPage />}
+          {page === 'costs'      && <CostsDashboard />}
           {page === 'snake'     && <SnakeGamePage />}
           {page === 'production' && <ProductionPage />}
         </main>
