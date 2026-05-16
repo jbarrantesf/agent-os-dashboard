@@ -3,15 +3,15 @@ import DashboardPage from './pages/DashboardPage'
 import AgentsPage from './pages/AgentsPage'
 import ChatPage from './pages/ChatPage'
 import ProjectsPage from './pages/ProjectsPage'
-import ProductionPage from './pages/ProductionPage'
-import SnakeGamePage from './pages/SnakeGamePage'
 import CostsDashboard from './pages/CostsDashboard'
+import SnakeGamePage from './pages/SnakeGamePage'
+import ProductionPage from './pages/ProductionPage'
 import {
   LayoutDashboard,
   Bot,
   MessageSquare,
   Folders,
-  Layers,
+  TrendingDown,
   Activity,
   Zap,
   ChevronRight,
@@ -19,36 +19,61 @@ import {
   Settings,
   Menu,
   X,
-  TrendingDown
+  Layers,
+  User,
+  Shield,
+  FileText
 } from 'lucide-react'
+import './App.css'
 
-const NAV_ITEMS = [
-  { id: 'dashboard',  label: 'Torre de Control', icon: LayoutDashboard },
-  { id: 'agents',     label: 'Agentes',           icon: Bot },
-  { id: 'chat',       label: 'Chat Orquestador',  icon: MessageSquare },
-  { id: 'projects',   label: 'Proyectos',          icon: Folders },
-  { id: 'costs',      label: 'Costos & ROI',       icon: TrendingDown },
-  { id: 'snake',      label: 'Snake Game',         icon: Zap },
-  { id: 'production', label: 'Prod / Vercel',      icon: Layers },
+// Sidebar structure similar to Danny
+const SIDEBAR_SECTIONS = {
+  teams: [
+    { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+    { id: 'agents', label: 'Agentes', icon: Bot },
+  ],
+  clients: [
+    { id: 'projects', label: 'Proyectos', icon: Folders },
+  ],
+  operations: [
+    { id: 'chat', label: 'Chat', icon: MessageSquare },
+    { id: 'costs', label: 'Costos & ROI', icon: TrendingDown },
+    { id: 'snake', label: 'Snake Game', icon: Zap },
+  ],
+  system: [
+    { id: 'production', label: 'Prod / Vercel', icon: Layers },
+    { id: 'docs', label: 'Docs', icon: FileText },
+  ]
+}
+
+const NEXAI_TEAMS = [
+  { name: 'T1 AI Front Desk', description: 'Atención al cliente', status: 'standby', agents: 4 },
+  { name: 'T2 AI Sales', description: 'Aumentar LTV', status: 'standby', agents: 3 },
+  { name: 'T3 Marketing Engine', description: 'Content generation', status: 'standby', agents: 3 },
+  { name: 'T4 CRM + Data', description: 'Data intelligence', status: 'standby', agents: 3 },
+  { name: 'T5 Automations', description: 'Sistema OpenClaw', status: 'standby', agents: 4 },
+  { name: 'T6 Executive Dashboard', description: 'Central metrics', status: 'standby', agents: 4 },
+  { name: 'T7 Design Team', description: 'Diseño dirigido', status: 'standby', agents: 3 },
+  { name: 'T8 Social Media', description: 'Social management', status: 'standby', agents: 5 },
+  { name: 'T9 Ads Management', description: 'Todas las plataformas', status: 'standby', agents: 8 },
+]
+
+const NEXAI_CLIENTS = [
+  { name: 'Coybo', status: 'active' },
+  { name: 'Client 2', status: 'active' },
+  { name: 'Client 3', status: 'pending' },
+  { name: 'Client 4', status: 'inactive' },
+  { name: 'Client 5', status: 'active' },
+  { name: 'Client 6', status: 'active' },
+  { name: 'Client 7', status: 'active' },
 ]
 
 export default function App() {
   const [page, setPage] = useState('dashboard')
   const [time, setTime] = useState(new Date())
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  // Detect mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      if (window.innerWidth < 768) {
-        setSidebarOpen(false)
-      }
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [expandedSection, setExpandedSection] = useState('teams')
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000)
@@ -58,197 +83,223 @@ export default function App() {
   const formatTime = (d) =>
     d.toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
   const formatDate = (d) =>
-    d.toLocaleDateString('es-CR', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
+    d.toLocaleDateString('es-CR', { weekday: 'long', day: 'numeric', month: 'long' })
 
-  const navigateTo = (id) => {
-    setPage(id)
-    setMobileOpen(false) // auto-close on mobile
+  const metrics = {
+    agents: NEXAI_TEAMS.length,
+    deployed: 0,
+    clients: NEXAI_CLIENTS.length,
+    mrr: 5500,
+    alerts: 2,
   }
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const getAllNavItems = () => Object.values(SIDEBAR_SECTIONS).flat()
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
-
-      {/* MOBILE OVERLAY */}
-      {mobileOpen && (
-        <div
-          className="mobile-overlay"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      {/* SIDEBAR */}
-      <aside
-        className={`sidebar-panel flex flex-col flex-shrink-0 transition-all duration-300 ${mobileOpen ? 'mobile-open' : ''}`}
-        style={{
-          width: sidebarOpen ? 240 : 64,
-          background: 'var(--bg-secondary)',
-          borderRight: '1px solid var(--border)',
-        }}
-      >
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-4 py-5" style={{ borderBottom: '1px solid var(--border)' }}>
-          <div
-            className="flex items-center justify-center flex-shrink-0"
-            style={{
-              width: 36, height: 36,
-              background: 'linear-gradient(135deg, #1d4ed8, #0891b2)',
-              borderRadius: 10,
-              boxShadow: '0 0 16px #3b82f630',
-            }}
-          >
-            <Zap size={18} color="#fff" />
-          </div>
-          {sidebarOpen && (
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: 0.5 }}>
-                NEXAI
-              </div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: 1, textTransform: 'uppercase' }}>
-                Torre de Control
-              </div>
+    <div className="danny-layout flex h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* DANNY-STYLE SIDEBAR */}
+      <aside className="danny-sidebar flex flex-col w-64 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-slate-800 overflow-y-auto">
+        {/* User Header */}
+        <div className="sticky top-0 p-6 bg-slate-900/50 backdrop-blur border-b border-slate-800">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white font-bold text-sm">
+              J
             </div>
-          )}
-          {/* Mobile close button inside sidebar */}
-          {mobileOpen && (
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="ml-auto"
-              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4 }}
-            >
-              <X size={18} />
-            </button>
-          )}
+            <div>
+              <div className="font-semibold text-white">José</div>
+              <div className="text-xs text-slate-400">Master Operator</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <span className="w-2 h-2 rounded-full bg-red-500"></span>
+            Offline
+          </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex flex-col gap-1 p-2 flex-1">
-          {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
+        {/* Navigation with sections */}
+        <nav className="flex-1 px-3 py-6 space-y-6">
+          {/* AGENT TEAMS */}
+          <div>
             <button
-              key={id}
-              className={`nav-item ${page === id ? 'active' : ''}`}
-              style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}
-              onClick={() => navigateTo(id)}
-              title={!sidebarOpen ? label : undefined}
+              onClick={() => setExpandedSection(expandedSection === 'teams' ? null : 'teams')}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-300 uppercase tracking-wider"
             >
-              <Icon size={18} />
-              {sidebarOpen && <span>{label}</span>}
-              {sidebarOpen && page === id && (
-                <ChevronRight size={14} style={{ marginLeft: 'auto', color: 'var(--accent-blue)' }} />
-              )}
+              <span>AGENT TEAMS</span>
+              <span className="bg-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">{NEXAI_TEAMS.length}</span>
             </button>
-          ))}
+            {expandedSection === 'teams' && (
+              <div className="mt-2 space-y-1">
+                {SIDEBAR_SECTIONS.teams.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setPage(item.id)}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded transition-colors ${
+                      page === item.id
+                        ? 'bg-purple-600/30 text-purple-300'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    }`}
+                  >
+                    <item.icon size={16} />
+                    <span className="text-sm">{item.label}</span>
+                  </button>
+                ))}
+                {NEXAI_TEAMS.map((team, idx) => (
+                  <button
+                    key={`team-${idx}`}
+                    className="w-full text-left px-3 py-1 text-xs text-slate-500 hover:text-slate-300 truncate"
+                  >
+                    {team.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* CLIENTS */}
+          <div>
+            <button
+              onClick={() => setExpandedSection(expandedSection === 'clients' ? null : 'clients')}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-300 uppercase tracking-wider"
+            >
+              <span>CLIENTS</span>
+              <span className="bg-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">{NEXAI_CLIENTS.length}</span>
+            </button>
+            {expandedSection === 'clients' && (
+              <div className="mt-2 space-y-1">
+                {SIDEBAR_SECTIONS.clients.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setPage(item.id)}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded transition-colors ${
+                      page === item.id
+                        ? 'bg-purple-600/30 text-purple-300'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    }`}
+                  >
+                    <item.icon size={16} />
+                    <span className="text-sm">{item.label}</span>
+                  </button>
+                ))}
+                {NEXAI_CLIENTS.map((client, idx) => (
+                  <button
+                    key={`client-${idx}`}
+                    className="w-full text-left px-3 py-1 text-xs text-slate-500 hover:text-slate-300 flex items-center gap-2 truncate"
+                  >
+                    <span className={`w-2 h-2 rounded-full ${
+                      client.status === 'active' ? 'bg-green-500' : 'bg-slate-600'
+                    }`}></span>
+                    {client.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* OPERATIONS */}
+          <div>
+            <button
+              onClick={() => setExpandedSection(expandedSection === 'ops' ? null : 'ops')}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-300 uppercase tracking-wider"
+            >
+              <span>OPERATIONS</span>
+            </button>
+            {expandedSection === 'ops' && (
+              <div className="mt-2 space-y-1">
+                {SIDEBAR_SECTIONS.operations.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setPage(item.id)}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded transition-colors text-sm ${
+                      page === item.id
+                        ? 'bg-purple-600/30 text-purple-300'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    }`}
+                  >
+                    <item.icon size={16} />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* SYSTEM */}
+          <div>
+            <button
+              onClick={() => setExpandedSection(expandedSection === 'system' ? null : 'system')}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-300 uppercase tracking-wider"
+            >
+              <span>SYSTEM</span>
+            </button>
+            {expandedSection === 'system' && (
+              <div className="mt-2 space-y-1">
+                {SIDEBAR_SECTIONS.system.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setPage(item.id)}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded transition-colors text-sm ${
+                      page === item.id
+                        ? 'bg-purple-600/30 text-purple-300'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    }`}
+                  >
+                    <item.icon size={16} />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Bottom status */}
-        {sidebarOpen && (
-          <div className="p-3" style={{ borderTop: '1px solid var(--border)' }}>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="status-dot online" />
-              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Hermes NEXAI</span>
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-              {formatTime(time)}
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-              {formatDate(time)}
-            </div>
+        {/* Footer */}
+        <div className="p-4 border-t border-slate-800 space-y-3">
+          <div className="text-xs text-slate-500">
+            <div className="font-semibold text-slate-400">NexAI Solutions CR</div>
+            <div className="text-slate-600">{formatDate(time)}</div>
           </div>
-        )}
-
-        {/* Collapse toggle — desktop only */}
-        <button
-          className="sidebar-collapse-btn"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          style={{
-            padding: '12px',
-            borderTop: '1px solid var(--border)',
-            color: 'var(--text-muted)',
-            textAlign: 'center',
-            cursor: 'pointer',
-            background: 'transparent',
-            border: 'none',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
-          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-        >
-          <ChevronRight
-            size={16}
-            style={{ transform: sidebarOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline' }}
-          />
-        </button>
+          <button className="w-full px-3 py-2 text-sm text-slate-400 hover:text-red-400 transition">
+            Sign out
+          </button>
+        </div>
       </aside>
 
       {/* MAIN CONTENT */}
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        {/* Top bar */}
-        <header
-          className="flex items-center justify-between px-4 md:px-6 py-3 flex-shrink-0"
-          style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)', height: 56 }}
-        >
-          <div className="flex items-center gap-3">
-            {/* Hamburger — mobile only */}
-            <button
-              className="hamburger-btn"
-              onClick={() => setMobileOpen(true)}
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 8,
-                padding: '6px 8px',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-              }}
-            >
-              <Menu size={18} />
-            </button>
-            <Activity size={16} style={{ color: 'var(--accent-cyan)' }} />
-            <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontWeight: 500 }}>
-              {NAV_ITEMS.find(n => n.id === page)?.label}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="status-dot online" />
-              <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 500 }}>Sistema Operativo</span>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top metrics bar */}
+        <div className="bg-slate-900/50 backdrop-blur border-b border-slate-800 px-6 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-8 text-sm">
+              <div className="text-slate-400">
+                AGENTS <span className="font-semibold text-white">{metrics.agents}</span>
+              </div>
+              <div className="text-slate-400">
+                DEPLOYED <span className="font-semibold text-white">{metrics.deployed}</span>
+              </div>
+              <div className="text-slate-400">
+                CLIENTS <span className="font-semibold text-white">{metrics.clients}</span>
+              </div>
+              <div className="text-slate-400">
+                MRR <span className="font-semibold text-green-400">${metrics.mrr.toLocaleString()}</span>
+              </div>
+              <div className="text-slate-400">
+                ALERTS <span className="font-semibold text-orange-400">{metrics.alerts}</span>
+              </div>
             </div>
-            <button
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 8,
-                padding: '6px 8px',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-              }}
-            >
-              <Bell size={14} />
-            </button>
-            <button
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 8,
-                padding: '6px 8px',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-              }}
-            >
-              <Settings size={14} />
-            </button>
+            <div className="text-xs text-slate-500">
+              Updated {formatTime(time)}
+            </div>
           </div>
-        </header>
+        </div>
 
-        {/* Page content */}
+        {/* Content area */}
         <main className="flex-1 overflow-auto">
           {page === 'dashboard' && <DashboardPage />}
-          {page === 'agents'    && <AgentsPage setPage={navigateTo} />}
-          {page === 'chat'      && <ChatPage />}
-          {page === 'projects'   && <ProjectsPage />}
-          {page === 'costs'      && <CostsDashboard />}
-          {page === 'snake'     && <SnakeGamePage />}
+          {page === 'agents' && <AgentsPage setPage={setPage} />}
+          {page === 'chat' && <ChatPage />}
+          {page === 'projects' && <ProjectsPage />}
+          {page === 'costs' && <CostsDashboard />}
+          {page === 'snake' && <SnakeGamePage />}
           {page === 'production' && <ProductionPage />}
         </main>
       </div>
