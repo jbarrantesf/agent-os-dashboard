@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 const GRID_SIZE = 20
 const CELL_SIZE = 20
 const CANVAS_SIZE = GRID_SIZE * CELL_SIZE
+const GAME_SPEED = 150 // ms
 
 export default function SnakeGame() {
   const canvasRef = useRef(null)
@@ -15,6 +16,62 @@ export default function SnakeGame() {
     gameOver: false,
     gameStarted: false,
   })
+
+  // Draw game on canvas
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    
+    // Background
+    ctx.fillStyle = '#1e293b'
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+
+    // Grid
+    ctx.strokeStyle = '#334155'
+    ctx.lineWidth = 0.5
+    for (let i = 0; i <= GRID_SIZE; i++) {
+      ctx.beginPath()
+      ctx.moveTo(i * CELL_SIZE, 0)
+      ctx.lineTo(i * CELL_SIZE, CANVAS_SIZE)
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(0, i * CELL_SIZE)
+      ctx.lineTo(CANVAS_SIZE, i * CELL_SIZE)
+      ctx.stroke()
+    }
+
+    // Snake
+    gameState.snake.forEach((segment, index) => {
+      if (index === 0) {
+        // Head - brighter green
+        ctx.fillStyle = '#34d399'
+      } else {
+        // Body - darker green
+        ctx.fillStyle = '#10b981'
+      }
+      ctx.fillRect(
+        segment.x * CELL_SIZE + 1,
+        segment.y * CELL_SIZE + 1,
+        CELL_SIZE - 2,
+        CELL_SIZE - 2
+      )
+    })
+
+    // Food
+    ctx.fillStyle = '#ef4444'
+    ctx.beginPath()
+    ctx.arc(
+      gameState.food.x * CELL_SIZE + CELL_SIZE / 2,
+      gameState.food.y * CELL_SIZE + CELL_SIZE / 2,
+      CELL_SIZE / 2 - 2,
+      0,
+      Math.PI * 2
+    )
+    ctx.fill()
+  }, [gameState])
 
   // Handle keyboard input
   useEffect(() => {
@@ -29,36 +86,28 @@ export default function SnakeGame() {
 
       switch (key) {
         case 'arrowup':
-          setGameState(prev => (
-            {
-              ...prev,
-              nextDirection: prev.direction.y === 0 ? { x: 0, y: -1 } : prev.nextDirection
-            }
-          ))
+          setGameState(prev => ({
+            ...prev,
+            nextDirection: prev.direction.y === 0 ? { x: 0, y: -1 } : prev.nextDirection
+          }))
           break
         case 'arrowdown':
-          setGameState(prev => (
-            {
-              ...prev,
-              nextDirection: prev.direction.y === 0 ? { x: 0, y: 1 } : prev.nextDirection
-            }
-          ))
+          setGameState(prev => ({
+            ...prev,
+            nextDirection: prev.direction.y === 0 ? { x: 0, y: 1 } : prev.nextDirection
+          }))
           break
         case 'arrowleft':
-          setGameState(prev => (
-            {
-              ...prev,
-              nextDirection: prev.direction.x === 0 ? { x: -1, y: 0 } : prev.nextDirection
-            }
-          ))
+          setGameState(prev => ({
+            ...prev,
+            nextDirection: prev.direction.x === 0 ? { x: -1, y: 0 } : prev.nextDirection
+          }))
           break
         case 'arrowright':
-          setGameState(prev => (
-            {
-              ...prev,
-              nextDirection: prev.direction.x === 0 ? { x: 1, y: 0 } : prev.nextDirection
-            }
-          ))
+          setGameState(prev => ({
+            ...prev,
+            nextDirection: prev.direction.x === 0 ? { x: 1, y: 0 } : prev.nextDirection
+          }))
           break
         default:
           break
@@ -112,62 +161,22 @@ export default function SnakeGame() {
           score: foodEaten ? prev.score + 10 : prev.score,
         }
       })
-    }, 150)
+    }, GAME_SPEED)
 
     return () => clearInterval(interval)
   }, [gameState.gameStarted, gameState.gameOver])
 
-  // Draw game on canvas
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = '#1e293b'
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
-
-    // Draw grid
-    ctx.strokeStyle = '#334155'
-    ctx.lineWidth = 0.5
-    for (let i = 0; i <= GRID_SIZE; i++) {
-      ctx.beginPath()
-      ctx.moveTo(i * CELL_SIZE, 0)
-      ctx.lineTo(i * CELL_SIZE, CANVAS_SIZE)
-      ctx.stroke()
-
-      ctx.beginPath()
-      ctx.moveTo(0, i * CELL_SIZE)
-      ctx.lineTo(CANVAS_SIZE, i * CELL_SIZE)
-      ctx.stroke()
-    }
-
-    // Draw snake
-    ctx.fillStyle = '#10b981'
-    gameState.snake.forEach((segment, index) => {
-      ctx.fillRect(
-        segment.x * CELL_SIZE + 1,
-        segment.y * CELL_SIZE + 1,
-        CELL_SIZE - 2,
-        CELL_SIZE - 2
-      )
-      // Head color (brighter)
-      if (index === 0) {
-        ctx.fillStyle = '#34d399'
-      }
+  const resetGame = () => {
+    setGameState({
+      snake: [{ x: 10, y: 10 }],
+      food: { x: 15, y: 15 },
+      direction: { x: 1, y: 0 },
+      nextDirection: { x: 1, y: 0 },
+      score: 0,
+      gameOver: false,
+      gameStarted: true,
     })
-
-    // Draw food
-    ctx.fillStyle = '#ef4444'
-    ctx.beginPath()
-    ctx.arc(
-      gameState.food.x * CELL_SIZE + CELL_SIZE / 2,
-      gameState.food.y * CELL_SIZE + CELL_SIZE / 2,
-      CELL_SIZE / 2 - 2,
-      0,
-      Math.PI * 2
-    )
-    ctx.fill()
-  }, [gameState])
+  }
 
   return (
     <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
@@ -203,15 +212,7 @@ export default function SnakeGame() {
       <button
         onClick={() => {
           if (gameState.gameOver) {
-            setGameState({
-              snake: [{ x: 10, y: 10 }],
-              food: { x: 15, y: 15 },
-              direction: { x: 1, y: 0 },
-              nextDirection: { x: 1, y: 0 },
-              score: 0,
-              gameOver: false,
-              gameStarted: true,
-            })
+            resetGame()
           } else if (gameState.gameStarted) {
             setGameState(prev => ({ ...prev, gameStarted: false }))
           } else {
@@ -223,7 +224,7 @@ export default function SnakeGame() {
         {gameState.gameOver ? '🔄 RESTART GAME' : gameState.gameStarted ? '⏸ PAUSE' : '▶ START GAME'}
       </button>
 
-      <div className="text-gray-400 text-sm text-center">
+      <div className="text-gray-400 text-sm text-center max-w-sm">
         <p>Use arrow keys to move • Eat red food to grow • Avoid yourself!</p>
       </div>
     </div>
