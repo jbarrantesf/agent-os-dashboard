@@ -1,0 +1,958 @@
+{
+  "timestamp": "2026-05-10T22:32:27.521532",
+  "mes": "2026-05",
+  "usuario": "Jose Barrantes",
+  "suscripcion": "premium",
+  "resumen": {
+    "ingresos": {
+      "crc": 0,
+      "usd": 0.0
+    },
+    "gastos": {
+      "crc": 0,
+      "usd": 0.0
+    },
+    "ahorros": {
+      "crc": 0,
+      "usd": 0.0
+    },
+    "balance": {
+      "crc": 0,
+      "usd": 0.0
+    },
+    "transacciones_total": 80
+  },
+  "presupuesto": {
+    "limite": {
+      "crc": 2500000,
+      "usd": 4807.692307692308
+    },
+    "gastado": {
+      "crc": 3299097.1,
+      "usd": 6344.4175000000005
+    },
+    "porcentaje": 132,
+    "status": "red"
+  },
+  "categorias": [
+    {
+      "categoria": "Compras",
+      "monto": {
+        "crc": 1535710,
+        "usd": 2953.2884615384614
+      },
+      "transacciones": 14,
+      "porcentaje": 46.54939016664555
+    },
+    {
+      "categoria": "Otros",
+      "monto": {
+        "crc": 1032836,
+        "usd": 1986.2230769230769
+      },
+      "transacciones": 13,
+      "porcentaje": 31.306617748245124
+    },
+    {
+      "categoria": "Servicios",
+      "monto": {
+        "crc": 426646,
+        "usd": 820.473076923077
+      },
+      "transacciones": 8,
+      "porcentaje": 12.932201468401363
+    },
+    {
+      "categoria": "Supermercado",
+      "monto": {
+        "crc": 99901,
+        "usd": 192.1173076923077
+      },
+      "transacciones": 14,
+      "porcentaje": 3.028130719366324
+    },
+    {
+      "categoria": "Comida",
+      "monto": {
+        "crc": 61940,
+        "usd": 119.11538461538461
+      },
+      "transacciones": 6,
+      "porcentaje": 1.8774828756223672
+    },
+    {
+      "categoria": "Suscripciones",
+      "monto": {
+        "crc": 57339,
+        "usd": 110.2673076923077
+      },
+      "transacciones": 12,
+      "porcentaje": 1.738020513485807
+    },
+    {
+      "categoria": "Transporte",
+      "monto": {
+        "crc": 31916,
+        "usd": 61.37692307692308
+      },
+      "transacciones": 3,
+      "porcentaje": 0.9674159421757098
+    },
+    {
+      "categoria": "Salud",
+      "monto": {
+        "crc": 22955,
+        "usd": 44.14423076923077
+      },
+      "transacciones": 3,
+      "porcentaje": 0.6957962449130035
+    },
+    {
+      "categoria": "Restaurantes",
+      "monto": {
+        "crc": 10200,
+        "usd": 19.615384615384617
+      },
+      "transacciones": 2,
+      "porcentaje": 0.30917541703823287
+    },
+    {
+      "categoria": "Tecnología",
+      "monto": {
+        "crc": 10200,
+        "usd": 19.615384615384617
+      },
+      "transacciones": 1,
+      "porcentaje": 0.30917541703823287
+    },
+    {
+      "categoria": "Educación",
+      "monto": {
+        "crc": 6750,
+        "usd": 12.98076923076923
+      },
+      "transacciones": 2,
+      "porcentaje": 0.20460137892236
+    },
+    {
+      "categoria": "Gasolina",
+      "monto": {
+        "crc": 2200,
+        "usd": 4.230769230769231
+      },
+      "transacciones": 1,
+      "porcentaje": 0.0666848938709914
+    },
+    {
+      "categoria": "Entretenimiento",
+      "monto": {
+        "crc": 505,
+        "usd": 0.9711538461538461
+      },
+      "transacciones": 1,
+      "porcentaje": 0.015307214274932118
+    }
+  ],
+  "transacciones": [
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "TAQUERIA JOSEPE",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Restaurantes",
+      "descripcion": "EL RANCHO DE TENCHA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "OPENAI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "DISTRIBUIDORA GODO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "OPENAI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-10T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "AMAZON MKTPLACE PMTS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "OPENAI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "OUTLET REMATES",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "TACOS PIRA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Restaurantes",
+      "descripcion": "CEVICHERA SHALOM GRECI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Educación",
+      "descripcion": "LIBRERIA DIMI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "LA TILICHERA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "LACAVAR LOS RODRIGUEZ",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-09T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "MINISUPER EL PUNTO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "TAP 15",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "IL FORNO 506",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Transporte",
+      "descripcion": "UBER * PENDING",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "TI COFFEE SHOP",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T06:00:00.000Z",
+      "categoria": "Salud",
+      "descripcion": "WALGREENS Ñ07842",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-08T00:00:00.000Z",
+      "categoria": "Entretenimiento",
+      "descripcion": "APPLE.COM BILL",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-07T06:00:00.000Z",
+      "categoria": "Transporte",
+      "descripcion": "UBER * PENDING",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-07T06:00:00.000Z",
+      "categoria": "Transporte",
+      "descripcion": "UBER * PENDING",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-07T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "DISTRIBUIDORA GODO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-07T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "THE BUFFET",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-07T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "STARBUCKS I",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "FLV WINE AND SPIRITS Ñ",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "COCOLINI I",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Tecnología",
+      "descripcion": "CLAUDE.AI SUBSCRIPTION",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "OUTLET REMATES",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "DISTRIBUIDORA GODO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "GREEN PAY COLONES PRUE",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Gasolina",
+      "descripcion": "AUTOSERVICIO SENSACION",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "TI STARBUCKS II",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-06T06:00:00.000Z",
+      "categoria": "Educación",
+      "descripcion": "LIBRERIA APUNTES",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "BENIHANA LAS VEGAS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "LA ELECTA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "AMAZON MKTPLACE PMTS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "ORGANIC AND FRUITS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "CARNES RIVAL",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "TI FRONT DESK",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-05T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Salud",
+      "descripcion": "WALGREENS Ñ07842",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "TST* LEYE - EL SEGUNDO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Salud",
+      "descripcion": "CVS/PHARMACY Ñ10348",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "TI FRONT DESK",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "STARBUCKS I",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "AMAZON MKTPLACE PMTS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-04T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "7-ELEVEN 39829",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "AMAZON PRIME PMTS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "CAFE Y BAKERY FOODCOUR",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "TAP 56",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "SUPER LOS GALLOS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "SUPER EL CRUCE",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "EG*TRVL73439641664675",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "EG*TRVL73439637735071",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "SUPER LOS GALLOS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-03T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "SUPER LOS GALLOS",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "PAYPAL *BOOKINGCOMB BO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "PAYPAL *BOOKINGCOMB BO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "Flights on Booking.com",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "SUPERMERCADO Y SODA SO",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Supermercado",
+      "descripcion": "COMPRE BIEN GRECIA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "MC DONALDS GRECIA",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-02T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "OPENAI",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-01T06:00:00.000Z",
+      "categoria": "Otros",
+      "descripcion": "SUPABASE",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-01T06:00:00.000Z",
+      "categoria": "Suscripciones",
+      "descripcion": "ANTHROPIC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-01T06:00:00.000Z",
+      "categoria": "Compras",
+      "descripcion": "OUTLET REMATES",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-01T06:00:00.000Z",
+      "categoria": "Comida",
+      "descripcion": "ARJE RESTAURANTE Y CAF",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    },
+    {
+      "fecha": "2026-05-01T06:00:00.000Z",
+      "categoria": "Servicios",
+      "descripcion": "OPENROUTER, INC",
+      "monto": {
+        "crc": 0,
+        "usd": 0.0
+      },
+      "tipo": "expense"
+    }
+  ]
+}

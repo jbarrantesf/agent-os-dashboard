@@ -1,28 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import TaskDetailModal from './TaskDetailModal';
-
-interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  status: 'triage' | 'todo' | 'in-progress' | 'blocked' | 'done';
-  assigned_to?: string;
-  project?: string;
-  estimated_hours?: number;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  created_at: string;
-  updated_at: string;
-}
+import React, { useState, useEffect, useCallback } from 'react'
+import TaskDetailModal from './TaskDetailModal'
+import { supabase, type Task } from './supabaseClient'
 
 interface Stats {
-  total: number;
-  by_status: Record<string, number>;
-  by_assignee: Record<string, number>;
+  total: number
+  by_status: Record<string, number>
+  by_assignee: Record<string, number>
 }
 
 interface KanbanBoardProps {
-  apiUrl?: string;
-  board?: string;
+  board?: string
 }
 
 const COLUMNS = [
@@ -31,444 +18,319 @@ const COLUMNS = [
   { id: 'in-progress', label: '⚙️ In Progress', color: 'yellow' },
   { id: 'blocked', label: '🚫 Blocked', color: 'red' },
   { id: 'done', label: '✅ Done', color: 'green' }
-];
+]
 
 const ASSIGNEE_COLORS: Record<string, string> = {
   'hermes': 'bg-purple-100 text-purple-800 border-purple-300',
   'orbit': 'bg-blue-100 text-blue-800 border-blue-300',
   'worker-1': 'bg-indigo-100 text-indigo-800 border-indigo-300',
   'worker-2': 'bg-pink-100 text-pink-800 border-pink-300',
-};
+}
 
 const PRIORITY_COLORS: Record<string, string> = {
   'urgent': 'bg-red-100 text-red-800',
   'high': 'bg-orange-100 text-orange-800',
   'medium': 'bg-blue-100 text-blue-800',
   'low': 'bg-gray-100 text-gray-800',
-};
+}
 
 const COLUMN_COLORS: Record<string, string> = {
-  'gray': 'bg-gray-50 border-gray-200',
-  'blue': 'bg-blue-50 border-blue-200',
-  'yellow': 'bg-yellow-50 border-yellow-200',
-  'red': 'bg-red-50 border-red-200',
-  'green': 'bg-green-50 border-green-200',
-};
+  'gray': 'bg-gradient-to-b from-gray-700 to-gray-800',
+  'blue': 'bg-gradient-to-b from-blue-700 to-blue-800',
+  'yellow': 'bg-gradient-to-b from-yellow-700 to-yellow-800',
+  'red': 'bg-gradient-to-b from-red-700 to-red-800',
+  'green': 'bg-gradient-to-b from-green-700 to-green-800',
+}
 
-/**
- * Control Tower Kanban Board — Professional Trello-style drag-drop interface
- * Real-time WebSocket sync with Hermes Kanban system
- */
-export const KanbanBoard: React.FC<KanbanBoardProps> = ({
-  apiUrl = 'http://localhost:8000/api/kanban',
-  board = 'default'
-}) => {
-  const [tasks, setTasks] = useState<Record<string, Task[]>>({
-    triage: [],
-    todo: [],
-    'in-progress': [],
-    blocked: [],
-    done: []
-  });
+const KanbanBoard: React.FC<KanbanBoardProps> = ({ board = 'default' }) => {
+  const [tasks, setTasks] = useState<Record<string, Task[]>>({})
+  const [stats, setStats] = useState<Stats>({ total: 0, by_status: {}, by_assignee: {} })
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+  const [showModal, setShowModal] = useState(false)
+  const [newTaskTitle, setNewTaskTitle] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const [stats, setStats] = useState<Stats>({
-    total: 0,
-    by_status: {},
-    by_assignee: {}
-  });
+  // Cargar tareas desde Supabase
+  const loadTasks = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
 
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [filter, setFilter] = useState<string>('all');
-  const [draggedTask, setDraggedTask] = useState<{ taskId: string; fromColumn: string } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [ws, setWs] = useState<WebSocket | null>(null);
+      const { data, error: fetchError } = await supabase
+        .from('tasks')
+        .select('*')
+        .eq('board', board)
+        .order('created_at', { ascending: false })
 
-  // Fetch initial tasks
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/tasks?board=${board}`);
-        const data = await response.json();
+      if (fetchError) throw fetchError
 
-        if (data.success) {
-          // Group tasks by status
-          const grouped: Record<string, Task[]> = {
-            triage: [],
-            todo: [],
-            'in-progress': [],
-            blocked: [],
-            done: []
-          };
+      // Agrupar por status
+      const grouped: Record<string, Task[]> = {}
+      COLUMNS.forEach(col => {
+        grouped[col.id] = []
+      })
 
-          data.tasks.forEach((task: Task) => {
-            if (grouped[task.status]) {
-              grouped[task.status].push(task);
-            }
-          });
-
-          setTasks(grouped);
-          setStats(data.stats);
+      data?.forEach((task: Task) => {
+        if (grouped[task.status]) {
+          grouped[task.status].push(task)
         }
-      } catch (err) {
-        console.error('Failed to fetch tasks:', err);
-        setError('Failed to load tasks');
-      } finally {
-        setLoading(false);
+      })
+
+      setTasks(grouped)
+
+      // Calcular stats
+      const newStats: Stats = {
+        total: data?.length || 0,
+        by_status: {},
+        by_assignee: {}
       }
-    };
 
-    fetchTasks();
-  }, [apiUrl, board]);
-
-  // WebSocket connection for real-time updates
-  useEffect(() => {
-    const wsUrl = `ws://localhost:8000/api/kanban/ws/kanban?board=${board}`;
-    const socket = new WebSocket(wsUrl);
-
-    socket.onopen = () => {
-      console.log('✅ WebSocket connected');
-    };
-
-    socket.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-
-        switch (message.type) {
-          case 'snapshot':
-            // Initial state
-            const grouped: Record<string, Task[]> = {
-              triage: [],
-              todo: [],
-              'in-progress': [],
-              blocked: [],
-              done: []
-            };
-            message.tasks.forEach((task: Task) => {
-              if (grouped[task.status]) {
-                grouped[task.status].push(task);
-              }
-            });
-            setTasks(grouped);
-            setStats(message.stats);
-            break;
-
-          case 'task_created':
-            // New task
-            setTasks(prev => ({
-              ...prev,
-              [message.task.status]: [...(prev[message.task.status] || []), message.task]
-            }));
-            break;
-
-          case 'task_claimed':
-            // Task assigned
-            setTasks(prev => {
-              const newTasks = { ...prev };
-              Object.keys(newTasks).forEach(status => {
-                newTasks[status] = newTasks[status].map(t =>
-                  t.id === message.task_id ? { ...t, assigned_to: message.assignee } : t
-                );
-              });
-              return newTasks;
-            });
-            break;
-
-          case 'task_completed':
-            // Task moved to done
-            setTasks(prev => {
-              const newTasks = { ...prev };
-              Object.keys(newTasks).forEach(status => {
-                newTasks[status] = newTasks[status].filter(t => t.id !== message.task_id);
-              });
-              newTasks.done = [...(newTasks.done || []), message.task];
-              return newTasks;
-            });
-            break;
-
-          case 'comment_added':
-            // Comment added (refresh task)
-            setSelectedTask(prev =>
-              prev && prev.id === message.task_id
-                ? { ...prev, updated_at: new Date().toISOString() }
-                : prev
-            );
-            break;
+      data?.forEach((task: Task) => {
+        newStats.by_status[task.status] = (newStats.by_status[task.status] || 0) + 1
+        if (task.assigned_to) {
+          newStats.by_assignee[task.assigned_to] = (newStats.by_assignee[task.assigned_to] || 0) + 1
         }
-      } catch (err) {
-        console.error('WebSocket message parse error:', err);
-      }
-    };
+      })
 
-    socket.onerror = (err) => {
-      console.error('❌ WebSocket error:', err);
-      setError('Real-time updates unavailable');
-    };
+      setStats(newStats)
+    } catch (err: any) {
+      setError(err.message || 'Error cargando tareas')
+      console.error('Error loading tasks:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [board])
 
-    socket.onclose = () => {
-      console.log('WebSocket disconnected');
-    };
+  // Cargar tareas al montar
+  useEffect(() => {
+    loadTasks()
 
-    setWs(socket);
+    // Suscribirse a cambios en tiempo real
+    const subscription = supabase
+      .channel(`tasks:${board}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'tasks',
+          filter: `board=eq.${board}`
+        },
+        () => {
+          loadTasks() // Recargar cuando hay cambios
+        }
+      )
+      .subscribe()
 
     return () => {
-      socket.close();
-    };
-  }, [board]);
-
-  // Claim task
-  const handleClaim = useCallback(async (taskId: string) => {
-    try {
-      const response = await fetch(`${apiUrl}/tasks/${taskId}/claim?assignee=hermes`, {
-        method: 'POST'
-      });
-
-      if (!response.ok) throw new Error('Failed to claim task');
-      // WebSocket will handle the update
-    } catch (err) {
-      console.error('Failed to claim task:', err);
-      alert('Failed to claim task');
+      subscription.unsubscribe()
     }
-  }, [apiUrl]);
+  }, [board, loadTasks])
 
-  // Complete task
-  const handleComplete = useCallback(async (taskId: string) => {
+  // Crear nueva tarea
+  const handleCreateTask = async () => {
+    if (!newTaskTitle.trim()) return
+
     try {
-      const response = await fetch(`${apiUrl}/tasks/${taskId}/complete`, {
-        method: 'POST'
-      });
+      const { error } = await supabase.from('tasks').insert({
+        title: newTaskTitle,
+        status: 'triage',
+        board,
+        priority: 'medium'
+      })
 
-      if (!response.ok) throw new Error('Failed to complete task');
-      // WebSocket will handle the update
-    } catch (err) {
-      console.error('Failed to complete task:', err);
-      alert('Failed to complete task');
+      if (error) throw error
+
+      setNewTaskTitle('')
+      await loadTasks()
+    } catch (err: any) {
+      setError(err.message || 'Error creando tarea')
     }
-  }, [apiUrl]);
+  }
 
-  // Drag handlers
-  const handleDragStart = (task: Task, column: string) => {
-    setDraggedTask({ taskId: task.id, fromColumn: column });
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = useCallback(async (toColumn: string) => {
-    if (!draggedTask) return;
-
-    const task = Object.values(tasks)
-      .flat()
-      .find(t => t.id === draggedTask.taskId);
-
-    if (!task) return;
-
-    // Update UI optimistically
-    setTasks(prev => {
-      const newTasks = { ...prev };
-      newTasks[draggedTask.fromColumn] = newTasks[draggedTask.fromColumn].filter(
-        t => t.id !== draggedTask.taskId
-      );
-      newTasks[toColumn] = [...(newTasks[toColumn] || []), { ...task, status: toColumn as any }];
-      return newTasks;
-    });
-
-    // Call API
+  // Actualizar estado de tarea (drag & drop)
+  const handleUpdateTaskStatus = async (taskId: string, newStatus: string) => {
     try {
-      const response = await fetch(`${apiUrl}/tasks/${draggedTask.taskId}/status?status=${toColumn}`, {
-        method: 'PATCH'
-      });
+      const { error } = await supabase
+        .from('tasks')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .eq('id', taskId)
 
-      if (!response.ok) {
-        throw new Error('Failed to update task status');
-      }
-    } catch (err) {
-      console.error('Failed to move task:', err);
-      alert('Failed to move task');
-      // UI will revert on next WebSocket update
+      if (error) throw error
+
+      await loadTasks()
+    } catch (err: any) {
+      setError(err.message || 'Error actualizando tarea')
     }
+  }
 
-    setDraggedTask(null);
-  }, [draggedTask, tasks, apiUrl]);
+  // Eliminar tarea
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      const { error } = await supabase.from('tasks').delete().eq('id', taskId)
 
-  // Filter tasks
-  const getFilteredTasks = (columnTasks: Task[]): Task[] => {
-    if (filter === 'all') return columnTasks;
-    return columnTasks.filter(t => t.assigned_to === filter);
-  };
+      if (error) throw error
 
-  if (loading) {
+      await loadTasks()
+    } catch (err: any) {
+      setError(err.message || 'Error eliminando tarea')
+    }
+  }
+
+  // Manejar drag and drop
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, taskId: string) => {
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('taskId', taskId)
+  }
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>, newStatus: string) => {
+    e.preventDefault()
+    const taskId = e.dataTransfer.getData('taskId')
+    await handleUpdateTaskStatus(taskId, newStatus)
+  }
+
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-          <p className="text-white text-lg">Loading Kanban...</p>
-        </div>
+        <div className="text-white text-xl">⏳ Cargando Kanban...</div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="h-screen bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-gray-900 p-4">
       {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">🚀 Control Tower</h1>
-          <p className="text-gray-400 text-sm mt-1">Kanban Board • Board: {board}</p>
-        </div>
-
-        <div className="flex items-center gap-6">
-          {/* Stats */}
-          <div className="flex gap-6">
-            <div className="text-center">
-              <p className="text-gray-400 text-sm">Total</p>
-              <p className="text-white text-2xl font-bold">{stats.total}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-gray-400 text-sm">In Progress</p>
-              <p className="text-yellow-400 text-2xl font-bold">{stats.by_status?.['in-progress'] || 0}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-gray-400 text-sm">Done</p>
-              <p className="text-green-400 text-2xl font-bold">{stats.by_status?.['done'] || 0}</p>
-            </div>
-          </div>
-
-          {/* Filter */}
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">All Assignees</option>
-            <option value="hermes">👾 Hermes</option>
-            <option value="orbit">🌌 Orbit</option>
-            <option value="unassigned">Unassigned</option>
-          </select>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-4xl font-bold text-white mb-2">🎯 Control Tower Kanban</h1>
+        <p className="text-gray-400">Board: <span className="font-mono bg-gray-800 px-2 py-1 rounded">{board}</span></p>
       </div>
 
       {/* Error Banner */}
       {error && (
-        <div className="bg-red-500 text-white px-6 py-3">
-          {error}
+        <div className="mb-4 p-4 bg-red-900 text-red-100 rounded-lg border border-red-700">
+          ❌ {error}
         </div>
       )}
 
+      {/* Stats */}
+      <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+          <div className="text-gray-400 text-sm">Total de Tareas</div>
+          <div className="text-3xl font-bold text-white">{stats.total}</div>
+        </div>
+        {Object.entries(stats.by_status).map(([status, count]) => (
+          <div key={status} className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <div className="text-gray-400 text-sm capitalize">{status}</div>
+            <div className="text-3xl font-bold text-white">{count}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Create New Task */}
+      <div className="mb-6 flex gap-2">
+        <input
+          type="text"
+          value={newTaskTitle}
+          onChange={(e) => setNewTaskTitle(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleCreateTask()}
+          placeholder="Nueva tarea... (Enter para crear)"
+          className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none"
+        />
+        <button
+          onClick={handleCreateTask}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+        >
+          ➕ Crear
+        </button>
+      </div>
+
       {/* Kanban Board */}
-      <div className="flex-1 overflow-x-auto p-6 gap-6 flex">
-        {COLUMNS.map(column => {
-          const columnTasks = getFilteredTasks(tasks[column.id] || []);
-          const columnColor = COLUMN_COLORS[column.color];
+      <div className="grid grid-cols-5 gap-4">
+        {COLUMNS.map((column) => (
+          <div
+            key={column.id}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, column.id)}
+            className={`${COLUMN_COLORS[column.color]} rounded-lg p-4 min-h-96`}
+          >
+            <h2 className="text-white font-bold text-lg mb-4 sticky top-0 bg-gray-800 p-2 rounded">
+              {column.label}
+              <span className="text-sm text-gray-300 ml-2">({tasks[column.id]?.length || 0})</span>
+            </h2>
 
-          return (
-            <div
-              key={column.id}
-              className={`flex-shrink-0 w-96 rounded-lg border-2 ${columnColor} flex flex-col`}
-            >
-              {/* Column Header */}
-              <div className="p-4 border-b border-gray-300 bg-white bg-opacity-5">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-white">{column.label}</h2>
-                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-700 text-gray-200">
-                    {columnTasks.length}
-                  </span>
-                </div>
-              </div>
-
-              {/* Tasks Container */}
-              <div
-                onDragOver={handleDragOver}
-                onDrop={() => handleDrop(column.id)}
-                className="flex-1 p-4 overflow-y-auto space-y-3"
-              >
-                {columnTasks.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <p className="text-sm">No tasks</p>
+            <div className="space-y-3">
+              {tasks[column.id]?.map((task) => (
+                <div
+                  key={task.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task.id)}
+                  onClick={() => {
+                    setSelectedTask(task)
+                    setShowModal(true)
+                  }}
+                  className="bg-gray-800 p-3 rounded-lg border border-gray-600 hover:border-blue-500 cursor-grab active:cursor-grabbing transition group"
+                >
+                  <div className="text-white font-semibold text-sm mb-2 group-hover:text-blue-300">
+                    {task.title}
                   </div>
-                ) : (
-                  columnTasks.map(task => (
-                    <div
-                      key={task.id}
-                      draggable
-                      onDragStart={() => handleDragStart(task, column.id)}
-                      onClick={() => setSelectedTask(task)}
-                      className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg cursor-move transition-all hover:scale-105 border-l-4 border-blue-500"
-                    >
-                      {/* Priority Badge */}
-                      <div className="flex items-start justify-between mb-2">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${PRIORITY_COLORS[task.priority]}`}>
-                          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
-                        </span>
-                        {task.assigned_to && (
-                          <span className={`px-2 py-1 rounded text-xs font-semibold ${ASSIGNEE_COLORS[task.assigned_to] || 'bg-gray-100 text-gray-800'}`}>
-                            {task.assigned_to === 'hermes' ? '👾' : task.assigned_to === 'orbit' ? '🌌' : '👤'} {task.assigned_to}
-                          </span>
-                        )}
-                      </div>
 
-                      {/* Title */}
-                      <h3 className="font-bold text-gray-900 mb-2 text-sm line-clamp-2">
-                        {task.title}
-                      </h3>
+                  {task.description && (
+                    <p className="text-gray-400 text-xs mb-2 line-clamp-2">{task.description}</p>
+                  )}
 
-                      {/* Meta */}
-                      <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                        {task.project && (
-                          <span className="px-2 py-1 rounded bg-purple-100 text-purple-800">
-                            {task.project}
-                          </span>
-                        )}
-                        {task.estimated_hours && (
-                          <span>⏱️ {task.estimated_hours}h</span>
-                        )}
-                      </div>
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-1">
+                    <span className={`text-xs px-2 py-1 rounded-full ${PRIORITY_COLORS[task.priority]}`}>
+                      {task.priority}
+                    </span>
+                    {task.assigned_to && (
+                      <span className={`text-xs px-2 py-1 rounded-full border ${ASSIGNEE_COLORS[task.assigned_to] || 'bg-gray-700 text-gray-300'}`}>
+                        👤 {task.assigned_to}
+                      </span>
+                    )}
+                    {task.estimated_hours && (
+                      <span className="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-300">
+                        ⏱️ {task.estimated_hours}h
+                      </span>
+                    )}
+                  </div>
 
-                      {/* Actions */}
-                      <div className="flex gap-2">
-                        {!task.assigned_to && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleClaim(task.id);
-                            }}
-                            className="flex-1 px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-600 transition"
-                          >
-                            Claim
-                          </button>
-                        )}
-                        {column.id !== 'done' && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleComplete(task.id);
-                            }}
-                            className="flex-1 px-2 py-1 bg-green-500 text-white text-xs font-semibold rounded hover:bg-green-600 transition"
-                          >
-                            Done
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
+                  {/* Delete button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteTask(task.id)
+                    }}
+                    className="mt-2 w-full text-xs bg-red-900 hover:bg-red-800 text-red-100 py-1 rounded opacity-0 group-hover:opacity-100 transition"
+                  >
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              ))}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       {/* Task Detail Modal */}
-      {selectedTask && (
+      {showModal && selectedTask && (
         <TaskDetailModal
           task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-          apiUrl={apiUrl}
+          onClose={() => setShowModal(false)}
+          onUpdate={async () => {
+            await loadTasks()
+            setShowModal(false)
+          }}
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default KanbanBoard;
+export default KanbanBoard

@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-05-10T22:27:03.075802",
+  "mes": "2026-05",
+  "usuario": "Jose Barrantes",
+  "ingresos_total": 0,
+  "gastos_total": 0,
+  "ahorros": 0,
+  "balance": 0,
+  "transacciones_count": 80,
+  "presupuesto": {
+    "limite": 2500000,
+    "gastado": 3299097.1,
+    "porcentaje": 132,
+    "status": "red"
+  },
+  "top_categorias": [
+    {
+      "category": "Compras",
+      "type": "expense",
+      "totalCRC": 1535710,
+      "count": 14
+    },
+    {
+      "category": "Otros",
+      "type": "expense",
+      "totalCRC": 1032836,
+      "count": 13
+    },
+    {
+      "category": "Servicios",
+      "type": "expense",
+      "totalCRC": 426646,
+      "count": 8
+    },
+    {
+      "category": "Supermercado",
+      "type": "expense",
+      "totalCRC": 99901,
+      "count": 14
+    },
+    {
+      "category": "Comida",
+      "type": "expense",
+      "totalCRC": 61940,
+      "count": 6
+    }
+  ],
+  "transacciones_muestra": [
+    {
+      "id": "fa809d2d-ea32-4acd-8a1e-74ab1c6bb8a8",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "TAQUERIA JOSEPE",
+      "amount": "4500.00",
+      "currency": "CRC",
+      "type": "expense",
+      "category": "Otros",
+      "bank": "BAC Credomatic",
+      "description": "TAQUERIA JOSEPE"
+    },
+    {
+      "id": "0b23e0b7-afe1-4a56-b330-23d83690d6f7",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "EL RANCHO DE TENCHA",
+      "amount": "4700.00",
+      "currency": "CRC",
+      "type": "expense",
+      "category": "Restaurantes",
+      "bank": "BAC Credomatic",
+      "description": "EL RANCHO DE TENCHA"
+    },
+    {
+      "id": "03c742a2-0b69-466d-9c6c-ad45a1e097ac",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENAI",
+      "amount": "5.08",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Suscripciones",
+      "bank": "BAC Credomatic",
+      "description": "OPENAI"
+    },
+    {
+      "id": "dc3256b0-ca64-4349-a28e-87e28e2f6c56",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENROUTER, INC",
+      "amount": "52.97",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Servicios",
+      "bank": "BAC Credomatic",
+      "description": "OPENROUTER, INC"
+    },
+    {
+      "id": "9429d654-540b-4bdd-9c67-2b6715dac37e",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENROUTER, INC",
+      "amount": "5.83",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Servicios",
+      "bank": "BAC Credomatic",
+      "description": "OPENROUTER, INC"
+    },
+    {
+      "id": "d1d0ea3f-3424-4dac-8c05-2b682dc727fc",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENROUTER, INC",
+      "amount": "10.85",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Servicios",
+      "bank": "BAC Credomatic",
+      "description": "OPENROUTER, INC"
+    },
+    {
+      "id": "41534cbf-1468-4f78-b2db-4e00c494c49f",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "DISTRIBUIDORA GODO",
+      "amount": "5925.00",
+      "currency": "CRC",
+      "type": "expense",
+      "category": "Supermercado",
+      "bank": "BAC Credomatic",
+      "description": "DISTRIBUIDORA GODO"
+    },
+    {
+      "id": "b9e2c38f-6b70-4216-960e-d11f4a4d7018",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENROUTER, INC",
+      "amount": "15.89",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Servicios",
+      "bank": "BAC Credomatic",
+      "description": "OPENROUTER, INC"
+    },
+    {
+      "id": "a4483339-2f23-4c7a-a168-83149f35e7be",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "OPENAI",
+      "amount": "5.76",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Suscripciones",
+      "bank": "BAC Credomatic",
+      "description": "OPENAI"
+    },
+    {
+      "id": "942c5c56-13eb-4338-bdf8-62ecf3973e61",
+      "date": "2026-05-10T06:00:00.000Z",
+      "merchant": "AMAZON MKTPLACE PMTS",
+      "amount": "35.98",
+      "currency": "USD",
+      "type": "expense",
+      "category": "Compras",
+      "bank": "BAC Credomatic",
+      "description": "AMAZON MKTPLACE PMTS"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "input": "ikv-teve-srj",
+  "space": {
+    "name": "spaces/QSFTN4IGLLsB",
+    "meetingUri": "https://meet.google.com/ikv-teve-srj",
+    "meetingCode": "ikv-teve-srj",
+    "config": {
+      "accessType": "TRUSTED",
+      "entryPointAccess": "ALL",
+      "moderation": "OFF",
+      "attendanceReportGenerationType": "DO_NOT_GENERATE",
+      "artifactConfig": {
+        "recordingConfig": {
+          "autoRecordingGeneration": "OFF"
+        },
+        "transcriptionConfig": {
+          "autoTranscriptionGeneration": "OFF"
+        },
+        "smartNotesConfig": {
+          "autoSmartNotesGeneration": "OFF"
+        }
+      }
+    },
+    "phoneAccess": [
+      {
+        "phoneNumber": "+50640102450",
+        "pin": "6016297472493",
+        "regionCode": "CR",
+        "languageCode": "en-US"
+      }
+    ]
+  },
+  "conferenceRecords": [
+    {
+      "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA",
+      "startTime": "2026-05-18T23:29:11.117906Z",
+      "endTime": "2026-05-18T23:33:06.650288Z",
+      "expireTime": "2026-06-17T23:33:06.650288Z",
+      "space": "spaces/QSFTN4IGLLsB"
+    }
+  ],
+  "artifacts": [
+    {
+      "conferenceRecord": {
+        "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA",
+        "startTime": "2026-05-18T23:29:11.117906Z",
+        "endTime": "2026-05-18T23:33:06.650288Z",
+        "expireTime": "2026-06-17T23:33:06.650288Z",
+        "space": "spaces/QSFTN4IGLLsB"
+      },
+      "participants": [
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/102656650100256983745",
+          "signedinUser": {
+            "user": "users/102656650100256983745",
+            "displayName": "Jose Barrantes"
+          },
+          "earliestStartTime": "2026-05-18T23:30:22.034335Z",
+          "latestEndTime": "2026-05-18T23:31:25.121775Z"
+        },
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/114784697107872911705",
+          "signedinUser": {
+            "user": "users/114784697107872911705",
+            "displayName": "Jose Barrantes"
+          },
+          "earliestStartTime": "2026-05-18T23:29:13.183167Z",
+          "latestEndTime": "2026-05-18T23:32:39.657295Z"
+        }
+      ],
+      "recordings": [],
+      "transcripts": [
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/transcripts/b72b6b63-1484-4770-8921-c68ba466f85c",
+          "state": "ENDED",
+          "startTime": "2026-05-18T23:29:32.855775Z",
+          "endTime": "2026-05-18T23:31:50.593912Z",
+          "docsDestination": {}
+        },
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/transcripts/a5fd7576-3b78-49cb-9ee6-962b56521420",
+          "state": "ENDED",
+          "startTime": "2026-05-18T23:31:52.368623Z",
+          "endTime": "2026-05-18T23:32:40.295951Z",
+          "docsDestination": {}
+        }
+      ],
+      "transcriptEntries": [
+        {
+          "transcript": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/transcripts/b72b6b63-1484-4770-8921-c68ba466f85c",
+          "entries": []
+        },
+        {
+          "transcript": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/transcripts/a5fd7576-3b78-49cb-9ee6-962b56521420",
+          "entries": []
+        }
+      ],
+      "smartNotes": [
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/smartNotes/2c20df5f-2d02-4d76-a148-84ec0b6eb162",
+          "state": "ENDED",
+          "startTime": "2026-05-18T23:29:32.824399Z",
+          "endTime": "2026-05-18T23:31:50.593912Z",
+          "docsDestination": {}
+        },
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/smartNotes/d4392a3b-f9a6-447e-accd-39b9f6c9480c",
+          "state": "ENDED",
+          "startTime": "2026-05-18T23:31:51.783311Z",
+          "endTime": "2026-05-18T23:32:42.673359Z",
+          "docsDestination": {}
+        }
+      ]
+    }
+  ]
+}

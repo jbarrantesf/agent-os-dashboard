@@ -1,0 +1,90 @@
+{
+  "input": "ikv-teve-srj",
+  "space": {
+    "name": "spaces/QSFTN4IGLLsB",
+    "meetingUri": "https://meet.google.com/ikv-teve-srj",
+    "meetingCode": "ikv-teve-srj",
+    "config": {
+      "accessType": "TRUSTED",
+      "entryPointAccess": "ALL",
+      "moderation": "OFF",
+      "attendanceReportGenerationType": "DO_NOT_GENERATE",
+      "artifactConfig": {
+        "recordingConfig": {
+          "autoRecordingGeneration": "OFF"
+        },
+        "transcriptionConfig": {
+          "autoTranscriptionGeneration": "OFF"
+        },
+        "smartNotesConfig": {
+          "autoSmartNotesGeneration": "OFF"
+        }
+      }
+    },
+    "phoneAccess": [
+      {
+        "phoneNumber": "+50640102450",
+        "pin": "6016297472493",
+        "regionCode": "CR",
+        "languageCode": "en-US"
+      }
+    ]
+  },
+  "conferenceRecords": [
+    {
+      "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA",
+      "startTime": "2026-05-18T23:29:11.117906Z",
+      "endTime": "2026-05-18T23:33:06.650288Z",
+      "expireTime": "2026-06-17T23:33:06.650288Z",
+      "space": "spaces/QSFTN4IGLLsB"
+    }
+  ],
+  "attendance": [
+    {
+      "conferenceRecord": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA",
+      "participant": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/102656650100256983745",
+      "displayName": "Jose Barrantes",
+      "user": "users/102656650100256983745",
+      "earliestStartTime": "2026-05-18T23:30:22.034Z",
+      "latestEndTime": "2026-05-18T23:31:25.121Z",
+      "sessions": [
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/102656650100256983745/participantSessions/293",
+          "startTime": "2026-05-18T23:30:22.034335Z",
+          "endTime": "2026-05-18T23:31:25.121775Z"
+        }
+      ],
+      "participants": [
+        "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/102656650100256983745"
+      ],
+      "firstJoinTime": "2026-05-18T23:30:22.034Z",
+      "lastLeaveTime": "2026-05-18T23:31:25.121Z",
+      "durationMs": 63087,
+      "late": false,
+      "earlyLeave": false
+    },
+    {
+      "conferenceRecord": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA",
+      "participant": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/114784697107872911705",
+      "displayName": "Jose Barrantes",
+      "user": "users/114784697107872911705",
+      "earliestStartTime": "2026-05-18T23:29:13.183Z",
+      "latestEndTime": "2026-05-18T23:32:39.657Z",
+      "sessions": [
+        {
+          "name": "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/114784697107872911705/participantSessions/290",
+          "startTime": "2026-05-18T23:29:13.183167Z",
+          "endTime": "2026-05-18T23:32:39.657295Z"
+        }
+      ],
+      "participants": [
+        "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/114784697107872911705"
+      ],
+      "firstJoinTime": "2026-05-18T23:29:13.183Z",
+      "lastLeaveTime": "2026-05-18T23:32:39.657Z",
+      "durationMs": 206474,
+      "late": false,
+      "earlyLeave": false
+    }
+  ]
+}

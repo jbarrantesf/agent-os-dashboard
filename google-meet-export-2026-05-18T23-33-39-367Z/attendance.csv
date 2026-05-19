@@ -1,0 +1,3 @@
+conferenceRecord,displayName,user,participants,firstJoined,lastLeft,durationMs,sessions,late,lateByMs,earlyLeave,earlyLeaveByMs
+conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA,Jose Barrantes,users/102656650100256983745,conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/102656650100256983745,2026-05-18T23:30:22.034Z,2026-05-18T23:31:25.121Z,63087,1,false,,false,
+conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA,Jose Barrantes,users/114784697107872911705,conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA/participants/114784697107872911705,2026-05-18T23:29:13.183Z,2026-05-18T23:32:39.657Z,206474,1,false,,false,

@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-05-18T23:33:39.368Z",
+  "request": {
+    "meeting": "ikv-teve-srj",
+    "calendarId": "primary",
+    "includeTranscriptEntries": true,
+    "includeDocumentBodies": false,
+    "allConferenceRecords": false,
+    "mergeDuplicateParticipants": true,
+    "lateAfterMinutes": 5,
+    "earlyBeforeMinutes": 5
+  },
+  "tokenSource": "refresh-token",
+  "inputs": {
+    "artifacts": "ikv-teve-srj",
+    "attendance": "ikv-teve-srj"
+  },
+  "counts": {
+    "conferenceRecords": 1,
+    "artifacts": 1,
+    "attendanceRows": 2,
+    "recordings": 0,
+    "transcripts": 2,
+    "transcriptEntries": 0,
+    "smartNotes": 2,
+    "warnings": 0
+  },
+  "conferenceRecords": [
+    "conferenceRecords/VZEuOCo3y9mN7GmqzA7ADxISOAIIigIgABgBCA"
+  ],
+  "files": [
+    "summary.md",
+    "attendance.csv",
+    "transcript.md",
+    "artifacts.json",
+    "attendance.json",
+    "manifest.json"
+  ],
+  "warnings": []
+}
